@@ -37,6 +37,15 @@
 <script lang="ts" setup>
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import images from '../utils/numImg'
+interface ImageObject {
+     id: '04',
+    name: '轿车',
+  img?: string | Blob; // 假设loadImage返回的是string或Blob类型
+}
+
+  async function loadImage(filename:string) {
+     return await import(`~/assets/memoryImg/${filename}.png`);
+   }
 const currentNumber = ref('00')
 const correctCount = ref(0)
 const wrongCount = ref(0)
@@ -45,15 +54,30 @@ const elapsedTime = ref(0)
 const timer = setInterval(() => {
   elapsedTime.value++
 }, 1000)
-const displayedImages = ref([])
-
-const updateDisplayedImages = () => {
+type ImageAsset = any // 或者更具体的类型
+const displayedImages = ref<ImageAsset[]>([])
+const temp = <ImageAsset[]>[]
+const updateDisplayedImages =async () => {
   // 实现选择图片的逻辑，确保一个匹配当前数字，其他随机
-  // 简化示例，实际逻辑需要根据需求调整
-  displayedImages.value = [
-    /* 选中的图片数组 */
-  ]
+  for (let index = 0; index < 3; index++) {
+    // 随机生成0-9的数字
+
+    const numSt1 = String(Math.floor(Math.random() * 10))
+const numSt2 = String(Math.floor(Math.random() * 10))
+const name=numSt1+numSt2
+    const imageObject:ImageObject = images.find(o => o.id === name)
+    console.log(imageObject,"vvv");
+
+    if (imageObject) {
+     imageObject.img = await loadImage(name) as unknown as string | Blob
+
+
+      temp.push(imageObject)
+    }
+  }
 }
+
+displayedImages.value = temp
 
 // 检查答案
 const checkAnswer = (id: string) => {

@@ -1,502 +1,402 @@
 export default [
   {
     id: '00',
-    name: '望远镜',
-    img: '@/assets/memoryImg/00.png'
+    name: '望远镜'
   },
   {
     id: '01',
-    name: '独轮车',
-    img: '@/assets/memoryImg/01.png'
+    name: '独轮车'
   },
   {
     id: '02',
-    name: '单车',
-    img: '@/assets/memoryImg/02.png'
+    name: '单车'
   },
   {
     id: '03',
-    name: '三轮车',
-    img: '@/assets/memoryImg/03.png'
+    name: '三轮车'
   },
   {
     id: '04',
-    name: '轿车',
-    img: '@/assets/memoryImg/04.png'
+    name: '轿车'
   },
   {
     id: '05',
-    name: '手套',
-    img: '@/assets/memoryImg/05.png'
+    name: '手套'
   },
   {
     id: '06',
-    name: '手枪',
-    img: '@/assets/memoryImg/06.png'
+    name: '手枪'
   },
   {
     id: '07',
-    name: '零钱',
-    img: '@/assets/memoryImg/07.png'
+    name: '零钱'
   },
   {
     id: '08',
-    name: '溜冰鞋',
-    img: '@/assets/memoryImg/08.png'
+    name: '溜冰鞋'
   },
   {
     id: '09',
-    name: '猫',
-    img: '@/assets/memoryImg/09.png'
+    name: '猫'
   },
   {
     id: '10',
-    name: '摇铃',
-    img: '@/assets/memoryImg/10.png'
+    name: '摇铃'
   },
   {
     id: '11',
-    name: '筷子',
-    img: '@/assets/memoryImg/11.png'
+    name: '筷子'
   },
   {
     id: '12',
-    name: '婴儿',
-    img: '@/assets/memoryImg/12.png'
+    name: '婴儿'
   },
   {
     id: '13',
-    name: '医生',
-    img: '@/assets/memoryImg/13.png'
+    name: '医生'
   },
   {
     id: '14',
-    name: '钥匙',
-    img: '@/assets/memoryImg/14.png'
+    name: '钥匙'
   },
   {
     id: '15',
-    name: '鹦鹉',
-    img: '@/assets/memoryImg/15.png'
+    name: '鹦鹉'
   },
   {
     id: '16',
-    name: '石榴',
-    img: '@/assets/memoryImg/16.png'
+    name: '石榴'
   },
   {
     id: '17',
-    name: '仪器',
-    img: '@/assets/memoryImg/17.png'
+    name: '仪器'
   },
   {
     id: '18',
-    name: '腰包',
-    img: '@/assets/memoryImg/18.png'
+    name: '腰包'
   },
   {
     id: '19',
-    name: '药酒',
-    img: '@/assets/memoryImg/19.png'
+    name: '药酒'
   },
   {
     id: '20',
-    name: '耳环',
-    img: '@/assets/memoryImg/20.png'
+    name: '耳环'
   },
   {
     id: '21',
-    name: '鳄鱼',
-    img: '@/assets/memoryImg/21.png'
+    name: '鳄鱼'
   },
   {
     id: '22',
-    name: '双胞胎',
-    img: '@/assets/memoryImg/22.png'
+    name: '双胞胎'
   },
   {
     id: '23',
-    name: '和尚',
-    img: '@/assets/memoryImg/23.png'
+    name: '和尚'
   },
   {
     id: '24',
-    name: '闹钟',
-    img: '@/assets/memoryImg/24.png'
+    name: '闹钟'
   },
   {
     id: '25',
-    name: '二胡',
-    img: '@/assets/memoryImg/25.png'
+    name: '二胡'
   },
   {
     id: '26',
-    name: '河流',
-    img: '@/assets/memoryImg/26.png'
+    name: '河流'
   },
   {
     id: '27',
-    name: '耳机',
-    img: '@/assets/memoryImg/27.png'
+    name: '耳机'
   },
   {
     id: '28',
-    name: '恶霸',
-    img: '@/assets/memoryImg/28.png'
+    name: '恶霸'
   },
   {
     id: '29',
-    name: '恶囚',
-    img: '@/assets/memoryImg/29.png'
+    name: '恶囚'
   },
   {
     id: '30',
-    name: '深林',
-    img: '@/assets/memoryImg/30.png'
+    name: '深林'
   },
   {
     id: '31',
-    name: '鲨鱼',
-    img: '@/assets/memoryImg/31.png'
+    name: '鲨鱼'
   },
   {
     id: '32',
-    name: '扇儿',
-    img: '@/assets/memoryImg/32.png'
+    name: '扇儿'
   },
   {
     id: '33',
-    name: '酸酸乳',
-    img: '@/assets/memoryImg/33.png'
+    name: '酸酸乳'
   },
   {
     id: '34',
-    name: '三丝',
-    img: '@/assets/memoryImg/34.png'
+    name: '三丝'
   },
   {
     id: '35',
-    name: '山虎',
-    img: '@/assets/memoryImg/35.png'
+    name: '山虎'
   },
   {
     id: '36',
-    name: '山鹿',
-    img: '@/assets/memoryImg/36.png'
+    name: '山鹿'
   },
   {
     id: '37',
-    name: '相机',
-    img: '@/assets/memoryImg/37.png'
+    name: '相机'
   },
   {
     id: '38',
-    name: '妇女',
-    img: '@/assets/memoryImg/38.png'
+    name: '妇女'
   },
   {
     id: '39',
-    name: '山谷',
-    img: '@/assets/memoryImg/39.png'
+    name: '山谷'
   },
   {
     id: '40',
-    name: '司令',
-    img: '@/assets/memoryImg/40.png'
+    name: '司令'
   },
   {
     id: '41',
-    name: '司仪',
-    img: '@/assets/memoryImg/41.png'
+    name: '司仪'
   },
   {
     id: '42',
-    name: '柿儿',
-    img: '@/assets/memoryImg/42.png'
+    name: '柿儿'
   },
   {
     id: '43',
-    name: '石山',
-    img: '@/assets/memoryImg/43.png'
+    name: '石山'
   },
   {
     id: '44',
-    name: '石狮',
-    img: '@/assets/memoryImg/44.png'
+    name: '石狮'
   },
   {
     id: '45',
-    name: '师傅',
-    img: '@/assets/memoryImg/45.png'
+    name: '师傅'
   },
   {
     id: '46',
-    name: '饲料',
-    img: '@/assets/memoryImg/46.png'
+    name: '饲料'
   },
   {
     id: '47',
-    name: '司机',
-    img: '@/assets/memoryImg/47.png'
+    name: '司机'
   },
   {
     id: '48',
-    name: '丝瓜',
-    img: '@/assets/memoryImg/48.png'
+    name: '丝瓜'
   },
   {
     id: '49',
-    name: '湿狗',
-    img: '@/assets/memoryImg/49.png'
+    name: '湿狗'
   },
   {
     id: '50',
-    name: '五环',
-    img: '@/assets/memoryImg/50.png'
+    name: '五环'
   },
   {
     id: '51',
-    name: '工人',
-    img: '@/assets/memoryImg/51.png'
+    name: '工人'
   },
   {
     id: '52',
-    name: '孤儿',
-    img: '@/assets/memoryImg/52.png'
+    name: '孤儿'
   },
   {
     id: '53',
-    name: '牡丹',
-    img: '@/assets/memoryImg/53.png'
+    name: '牡丹'
   },
   {
     id: '54',
-    name: '武士',
-    img: '@/assets/memoryImg/54.png'
+    name: '武士'
   },
   {
     id: '55',
-    name: '火车',
-    img: '@/assets/memoryImg/55.png'
+    name: '火车'
   },
   {
     id: '56',
-    name: '蜗牛',
-    img: '@/assets/memoryImg/56.png'
+    name: '蜗牛'
   },
   {
     id: '57',
-    name: '武器',
-    img: '@/assets/memoryImg/57.png'
+    name: '武器'
   },
   {
     id: '58',
-    name: '尾巴',
-    img: '@/assets/memoryImg/58.png'
+    name: '尾巴'
   },
   {
     id: '59',
-    name: '蜈蚣',
-    img: '@/assets/memoryImg/59.png'
+    name: '蜈蚣'
   },
   {
     id: '60',
-    name: '榴莲',
-    img: '@/assets/memoryImg/60.png'
+    name: '榴莲'
   },
   {
     id: '61',
-    name: '轮椅',
-    img: '@/assets/memoryImg/61.png'
+    name: '轮椅'
   },
   {
     id: '62',
-    name: '牛儿',
-    img: '@/assets/memoryImg/62.png'
+    name: '牛儿'
   },
   {
     id: '63',
-    name: '硫酸',
-    img: '@/assets/memoryImg/63.png'
+    name: '硫酸'
   },
   {
     id: '64',
-    name: '螺丝',
-    img: '@/assets/memoryImg/64.png'
+    name: '螺丝'
   },
   {
     id: '65',
-    name: '锣鼓',
-    img: '@/assets/memoryImg/65.png'
+    name: '锣鼓'
   },
   {
     id: '66',
-    name: '筛子',
-    img: '@/assets/memoryImg/66.png'
+    name: '筛子'
   },
   {
     id: '67',
-    name: '油漆',
-    img: '@/assets/memoryImg/67.png'
+    name: '油漆'
   },
   {
     id: '68',
-    name: '喇叭',
-    img: '@/assets/memoryImg/68.png'
+    name: '喇叭'
   },
   {
     id: '69',
-    name: '漏斗',
-    img: '@/assets/memoryImg/69.png'
+    name: '漏斗'
   },
   {
     id: '70',
-    name: '冰激凌',
-    img: '@/assets/memoryImg/70.png'
+    name: '冰激凌'
   },
   {
     id: '71',
-    name: '蜥蜴',
-    img: '@/assets/memoryImg/71.png'
+    name: '蜥蜴'
   },
   {
     id: '72',
-    name: '企鹅',
-    img: '@/assets/memoryImg/72.png'
+    name: '企鹅'
   },
   {
     id: '73',
-    name: '西餐',
-    img: '@/assets/memoryImg/73.png'
+    name: '西餐'
   },
   {
     id: '74',
-    name: '骑士',
-    img: '@/assets/memoryImg/74.png'
+    name: '骑士'
   },
   {
     id: '75',
-    name: '西服',
-    img: '@/assets/memoryImg/75.png'
+    name: '西服'
   },
   {
     id: '76',
-    name: '汽油',
-    img: '@/assets/memoryImg/76.png'
+    name: '汽油'
   },
   {
     id: '77',
-    name: '机器人',
-    img: '@/assets/memoryImg/77.png'
+    name: '机器人'
   },
   {
     id: '78',
-    name: '西瓜',
-    img: '@/assets/memoryImg/78.png'
+    name: '西瓜'
   },
   {
     id: '79',
-    name: '气球',
-    img: '@/assets/memoryImg/79.png'
+    name: '气球'
   },
   {
     id: '80',
-    name: '巴黎铁塔',
-    img: '@/assets/memoryImg/80.png'
+    name: '巴黎铁塔'
   },
   {
     id: '81',
-    name: '白蚁',
-    img: '@/assets/memoryImg/81.png'
+    name: '白蚁'
   },
   {
     id: '82',
-    name: '靶儿',
-    img: '@/assets/memoryImg/82.png'
+    name: '靶儿'
   },
   {
     id: '83',
-    name: '布衫',
-    img: '@/assets/memoryImg/83.png'
+    name: '布衫'
   },
   {
     id: '84',
-    name: '巴士',
-    img: '@/assets/memoryImg/84.png'
+    name: '巴士'
   },
   {
     id: '85',
-    name: '宝物',
-    img: '@/assets/memoryImg/85.png'
+    name: '宝物'
   },
   {
     id: '86',
-    name: '八路',
-    img: '@/assets/memoryImg/86.png'
+    name: '八路'
   },
   {
     id: '87',
-    name: '白旗',
-    img: '@/assets/memoryImg/87.png'
+    name: '白旗'
   },
   {
     id: '88',
-    name: '爸爸',
-    img: '@/assets/memoryImg/88.png'
+    name: '爸爸'
   },
   {
     id: '89',
-    name: '白酒',
-    img: '@/assets/memoryImg/89.png'
+    name: '白酒'
   },
   {
     id: '90',
-    name: '教练',
-    img: '@/assets/memoryImg/90.png'
+    name: '教练'
   },
   {
     id: '91',
-    name: '旧椅',
-    img: '@/assets/memoryImg/91.png'
+    name: '旧椅'
   },
   {
     id: '92',
-    name: '球儿',
-    img: '@/assets/memoryImg/92.png'
+    name: '球儿'
   },
   {
     id: '93',
-    name: '救生',
-    img: '@/assets/memoryImg/93.png'
+    name: '救生'
   },
   {
     id: '94',
-    name: '绞死',
-    img: '@/assets/memoryImg/94.png'
+    name: '绞死'
   },
   {
     id: '95',
-    name: '酒壶',
-    img: '@/assets/memoryImg/95.png'
+    name: '酒壶'
   },
   {
     id: '96',
-    name: '旧炉',
-    img: '@/assets/memoryImg/96.png'
+    name: '旧炉'
   },
   {
     id: '97',
-    name: '香港',
-    img: '@/assets/memoryImg/97.png'
+    name: '香港'
   },
   {
     id: '98',
-    name: '球拍',
-    img: '@/assets/memoryImg/98.png'
+    name: '球拍'
   },
   {
     id: '99',
-    name: '舅舅',
-    img: '@/assets/memoryImg/99.png'
+    name: '舅舅'
   }
 ]

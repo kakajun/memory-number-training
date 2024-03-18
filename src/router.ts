@@ -1,14 +1,9 @@
-// router.ts
-
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import selectImagesInOrder from './views/selectImagesInOrder.vue'
-import About from './views/About.vue'
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'selectImagesInOrder',
-    component: selectImagesInOrder
+    name: 'gussNumber',
+    component: () => import('./views/gussNumber.vue')
   }
 ]
 
