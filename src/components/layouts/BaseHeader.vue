@@ -1,12 +1,32 @@
 <script lang="ts" setup>
-import { toggleDark } from "~/composables";
-const findPic=()=>{}
+import { toggleDark } from '~/composables'
+import { useRouter, useRoute } from 'vue-router'
+import { defineComponent, ref, onMounted, watch, computed } from 'vue'
+const route = useRoute()
+const activeIndex = ref('/')
+// 获取路由实例并立即调用push方法
+const router = useRouter()
+
+const pushUrl = (url: string) => {
+  router.push(url)
+}
+
+// 当参数更改时获取用户信息
+watch(
+  () => route.path,
+  newId => {
+    console.log('路由变化了', newId)
+    activeIndex.value = newId
+  }
+)
 </script>
 
 <template>
-  <el-menu class="el-menu-demo" mode="horizontal">
-    <el-menu-item index="1" @click="findPic">按序选图</el-menu-item>
-    <el-menu-item index="2">按序选图</el-menu-item>
+  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+    <el-menu-item index="/" @click="pushUrl('/')">按序选图</el-menu-item>
+    <el-menu-item index="/random" @click="pushUrl('/random')"
+      >随机选图</el-menu-item
+    >
     <el-menu-item index="4">Orders</el-menu-item>
     <el-menu-item h="full" @click="toggleDark()">
       <button

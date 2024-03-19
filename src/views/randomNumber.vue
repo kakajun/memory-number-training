@@ -14,13 +14,13 @@
       <div class="image-grid">
         <div
           v-for="image in displayedImages"
-          :key="image.id"
+          :key="image.name"
           class="image-cell"
         >
           <img
-            :src="image.img"
+            :src="image.url"
             :alt="image.name"
-            @click="checkAnswer(image.id)"
+            @click="checkAnswer(image.name)"
           />
         </div>
       </div>
@@ -34,18 +34,12 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
-import images from '../utils/numImg'
-interface ImageObject {
-  id: '04'
-  name: '轿车'
-  img?: string | Blob // 假设loadImage返回的是string或Blob类型
-}
-
-async function loadImage(filename: string) {
-  return await import(`~/assets/memoryImg/${filename}.png`)
-}
+import { shuffleArray, randomNum, uniqueNumberGenerator } from '../utils/tool'
+// 创建一个生成器实例
+const generator = uniqueNumberGenerator()
+const usedList = ref([])
 const currentNumber = ref('00')
 const correctCount = ref(0)
 const wrongCount = ref(0)
@@ -54,51 +48,54 @@ const elapsedTime = ref(0)
 const timer = setInterval(() => {
   elapsedTime.value++
 }, 1000)
-type ImageAsset = any // 或者更具体的类型
+
+const fileTypes = [] // 接收所有图片
+
+type ImageAsset = {
+  name: string
+  url: string
+} // 或者更具体的类型
 const displayedImages = ref<ImageAsset[]>([])
 
-// 定义一个响应式数据存储导入的图片
-const images = ref<Record<string, string>>({})
+// 用闭包的方式生成一个数字,要求数字不能重复
 
-// 使用 import.meta.globEager 批量导入图片
-// const imageModules = import.meta.glob('../assets/images/*.png')
-// console.log(imageModules, 'vvvvv')
-
-// // 迭代图片模块并获取实际的图片路径
-// for (const path in imageModules) {
-//   // images.value[path] = imageModules[path]
-// }
-const temp = <ImageAsset[]>[]
 const updateDisplayedImages = async () => {
-  // // 实现选择图片的逻辑，确保一个匹配当前数字，其他随机
-  // for (let index = 0; index < 3; index++) {
-  //   // 随机生成0-9的数字
-  //   const numSt1 = String(Math.floor(Math.random() * 10))
-  //   const numSt2 = String(Math.floor(Math.random() * 10))
-  //   const name = numSt1 + numSt2
-  //   const imageObject: ImageObject = images.find(o => o.id === name)
-  //   console.log(imageObject, 'vvv')
-  //   if (imageObject) {
-  //     imageObject.img = (await loadImage(name)) as unknown as string | Blob
-  //     temp.push(imageObject)
-  //   }
-  // }
+  currentNumber.value = generator()
+  // 随机生成 00 -99 之间一个数
+  let temp = <ImageAsset[]>[]
+  // 实现选择图片的逻辑，确保一个匹配当前数字，其他随机
+  for (let index = 0; index < 3; index++) {
+    // 随机生成0-9的数字
+    const numSt1 = String(Math.floor(Math.random() * 10))
+    const numSt2 = String(Math.floor(Math.random() * 10))
+    const name = numSt1 + numSt2
+    const imageObject = { name, url: '/src/assets/memoryImg/' + name + '.png' }
+    temp.push(imageObject)
+  }
+  temp.push({
+    name: currentNumber.value,
+    url: '/src/assets/memoryImg/' + currentNumber.value + '.png'
+  })
+  // 任意打乱temp里面的顺序
+  temp = shuffleArray(temp)
+  console.log(temp, 'shuffleArray')
+  displayedImages.value = temp
 }
 
-displayedImages.value = temp
-
-// 检查答案
-const checkAnswer = (id: string) => {
-  if (id === currentNumber.value) {
+/**
+ * @description: 图片点击事件
+ * @param {*} name
+ */
+const checkAnswer = (name: string) => {
+  if (name === currentNumber.value) {
     correctCount.value++
-    // 更新数字和图片逻辑
   } else {
     wrongCount.value++
   }
 }
 
 watch(currentNumber, newValue => {
-  if (newValue === '99') {
+  if (wrongCount.value + correctCount.value === 99) {
     clearInterval(timer) // 停止计时
     alert('游戏结束')
   }
@@ -109,7 +106,6 @@ onMounted(() => {
   updateDisplayedImages()
 })
 </script>
-
 <style scoped>
 .memory-game {
   display: flex;
@@ -165,11 +161,5 @@ onMounted(() => {
 .game-time {
   margin-top: 20px;
   font-size: 18px;
-}
-
-@media (min-width: 768px) {
-  .image-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 </style>
