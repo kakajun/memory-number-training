@@ -20,7 +20,7 @@
           <img
             :src="image.img"
             :alt="image.name"
-            @click="checkAnswer(image.name)"
+            @click="checkAnswer(image.id)"
           />
         </div>
       </div>
@@ -46,14 +46,17 @@ const timer = setInterval(() => {
   elapsedTime.value++
 }, 1000)
 
-const fileTypes = [] // 接收所有图片
+// 定义一个响应式数据存储导入的图片
+const images = {}
+
 // 使用 import.meta.globEager 批量导入图片
 const imageModules = import.meta.globEager('../assets/memoryImg/*.png')
+
 // 迭代图片模块并获取实际的图片路径
 for (const path in imageModules) {
-  const fileType = path.match(/([^/]*?)\.[^/.]+$/)[1] // 使用正则匹配出文件名称
-  fileTypes.push({ name: fileType, iconSrc: imageModules[path].default })
+  images[path] = imageModules[path].default
 }
+console.log(images, '555')
 
 type ImageAsset = any // 或者更具体的类型
 const displayedImages = ref<ImageAsset[]>([])
@@ -65,37 +68,12 @@ const updateDisplayedImages = async () => {
     const numSt1 = String(Math.floor(Math.random() * 10))
     const numSt2 = String(Math.floor(Math.random() * 10))
     const name = numSt1 + numSt2
-    const img = fileTypes.find(item => item.name === name)
-    const imageObject = { name, img: img.iconSrc }
+
+    const imageObject = { name, img: images[name] }
     temp.push(imageObject)
   }
-  temp.push({ name: currentNumber.value, img: '' })
   displayedImages.value = temp
   console.log(displayedImages)
-}
-
-// 设置方法给currentNumber每次加1,如果是个位数前面补0
-function setNumber(number: string) {
-  const num = Number(number)
-  if (num > 9) {
-    return String(num)
-  } else {
-    return '0' + String(num)
-  }
-}
-
-/**
- * @description: 图片点击事件
- * @param {*} name
- */
-const checkAnswer = (name: string) => {
-  if (name === currentNumber.value) {
-    correctCount.value++
-  } else {
-    wrongCount.value++
-  }
-  setNumber(currentNumber.value)
-  updateDisplayedImages()
 }
 
 watch(currentNumber, newValue => {
