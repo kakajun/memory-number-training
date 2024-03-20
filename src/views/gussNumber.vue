@@ -77,9 +77,37 @@ type ImageAsset = {
 } // 或者更具体的类型
 const displayedImages = ref<ImageAsset[]>([])
 
+const imageCache = new Map<string, HTMLImageElement>()
+
+async function preloadImage(url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.onerror = reject
+    img.src = url
+  })
+}
+
+const cacheImage = async (image: ImageAsset) => {
+  if (!imageCache.has(image.url)) {
+    const cachedImage = await preloadImage(image.url)
+    imageCache.set(image.url, cachedImage)
+  }
+}
+let cacheTemp: { name: string; url: string }[] = []
 const updateDisplayedImages = async () => {
-  let temp = getImages(currentNumber.value)
-  displayedImages.value = temp
+  displayedImages.value = [...cacheTemp]
+}
+/**
+ * @description: 加载图片
+ */
+const getCacheImage = async () => {
+  let temp = getImages(addNumber(currentNumber.value))
+  for (let index = 0; index < temp.length; index++) {
+    const item = temp[index]
+    await cacheImage(item)
+  }
+  cacheTemp = temp
 }
 
 const handleClose = () => {
@@ -106,6 +134,7 @@ const checkAnswer = (name: string) => {
     wrongCount.value++
   }
   currentNumber.value = addNumber(currentNumber.value)
+  getCacheImage()
 }
 
 watch(currentNumber, newValue => {
@@ -118,8 +147,10 @@ watch(currentNumber, newValue => {
   updateDisplayedImages()
 })
 
-onMounted(() => {
+onMounted(async () => {
+  await getCacheImage()
   updateDisplayedImages()
+  await getCacheImage() // 多加载一次
 })
 </script>
 <style scoped>
