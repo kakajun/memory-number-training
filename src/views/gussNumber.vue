@@ -138,7 +138,7 @@ const handleClose = () => {
   timer = setInterval(() => {
     elapsedTime.value++
   }, 1000)
-  updateDisplayedImages()
+  init()
 }
 
 /**
