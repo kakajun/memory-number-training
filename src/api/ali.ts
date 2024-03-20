@@ -20,14 +20,18 @@ async function postData(url = '', data = {}) {
   }
 }
 
-export async function postAnswer(data) {
-  try
-  {
-    const response = await postData('https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation', data)
-
+export async function postAnswer(data: any) {
+  try {
+    const response = await postData(
+      'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
+      data
+    )
+    console.log(response)
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
 }
-}
-// 示例：发送一个包含答案的 JSON 数据
-postData('[^1^][7]', { answer: 42 }).then(data => {
-  console.log('Response data:', data)
-})
+// // 示例：发送一个包含答案的 JSON 数据
+// postData('[^1^][7]', { answer: 42 }).then(data => {
+//   console.log('Response data:', data)
+// })

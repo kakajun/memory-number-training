@@ -28,7 +28,7 @@
 
     <!-- 游戏时间 -->
     <div class="game-time">
-      <p>用时: {{ cputElapsedTime }}</p>
+      <p>用时: {{ formattedElapsedTime }}</p>
       <p>开始时间: {{ startTime }}</p>
     </div>
   </div>
@@ -57,7 +57,9 @@
 
 <script setup lang="ts">
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
-import { getImages, addNumber } from '../utils/tool'
+import { getImages, addNumber, preloadImage, cacheImage } from '../utils/tool'
+import type { ImageAsset } from '../utils/tool'
+import { useElapsedTimeFormatter } from '../utils/useElapsedTimeFormatter'
 
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
@@ -70,41 +72,10 @@ let timer = setInterval(() => {
 }, 1000)
 
 const fileTypes = [] // 接收所有图片
-
-type ImageAsset = {
-  name: string
-  url: string
-} // 或者更具体的类型
 const displayedImages = ref<ImageAsset[]>([])
 
-const imageCache = new Map<string, HTMLImageElement>()
 
-async function preloadImage(url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = () => resolve(img)
-    img.onerror = reject
-    img.src = url
-  })
-}
-
-const cacheImage = async (image: ImageAsset) => {
-  if (!imageCache.has(image.url)) {
-    const cachedImage = await preloadImage(image.url)
-    imageCache.set(image.url, cachedImage)
-  }
-}
-
-const cputElapsedTime = computed<string>(() => {
-  let time: number | string = elapsedTime.value
-  // 如果大于等于60秒,格式化为分钟和秒
-  if (time >= 60) {
-    time = `${Math.floor(time / 60)}分${time % 60}秒`
-  } else {
-    time = time + '秒' // 将小于60秒的时间转为字符串形式
-  }
-  return time as string
-})
+const formattedElapsedTime = useElapsedTimeFormatter(elapsedTime.value)
 let cacheTemp: { name: string; url: string }[] = []
 
 /**
@@ -118,14 +89,12 @@ const updateDisplayedImages = async () => {
  * @description: 加载图片
  */
 const getCacheImage = async (value: string) => {
-  console.log(value, '加载图片')
-
   let temp = getImages(value)
   for (let index = 0; index < temp.length; index++) {
     const item = temp[index]
-    await cacheImage(item)
+    await cacheImage(item, imageCache)
   }
-  cacheTemp = temp
+  return temp
 }
 
 const handleClose = () => {
@@ -145,7 +114,7 @@ const handleClose = () => {
  * @description: 图片点击事件
  * @param {*} name
  */
-const checkAnswer = (name: string) => {
+const checkAnswer = async (name: string) => {
   if (name === currentNumber.value) {
     correctCount.value++
   } else {
@@ -162,17 +131,17 @@ const checkAnswer = (name: string) => {
   // 更新当前数字
   currentNumber.value = nextNumber
   // 更新缓存图片
-  getCacheImage(addNumber(currentNumber.value))
+  cacheTemp = await getCacheImage(addNumber(currentNumber.value))
 }
 
 /**
  * @description: 初始化图片
  */
 const init = async () => {
-  await getCacheImage(currentNumber.value)
+  cacheTemp = await getCacheImage(currentNumber.value)
   updateDisplayedImages()
   let nextNumber = addNumber(currentNumber.value)
-  await getCacheImage(nextNumber)
+  cacheTemp = await getCacheImage(nextNumber)
 }
 
 onMounted(() => {

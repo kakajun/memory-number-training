@@ -54,3 +54,30 @@ export function addNumber(value: string) {
   const num = Number(value)
   return num >= 9 ? String(num + 1) : '0' + String(num + 1)
 }
+
+// imagePreloader.ts
+
+export async function preloadImage(url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.onerror = reject
+    img.src = url
+  })
+}
+export type ImageAsset = {
+  name: string
+  url: string
+} // 或者更具体的类型
+export function cacheImage(
+  image: ImageAsset,
+  imageCache: Map<string, HTMLImageElement>
+) {
+  if (!imageCache.has(image.url)) {
+    preloadImage(image.url)
+      .then(cachedImage => {
+        imageCache.set(image.url, cachedImage)
+      })
+      .catch(err => console.error('Error preloading image:', err)) // 添加错误处理
+  }
+}

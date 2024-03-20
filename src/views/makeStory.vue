@@ -20,7 +20,15 @@
   </div>
 </template>
 
-<script setup >
+<script setup  lang="ts">
+import { postAnswer } from '~/api/ali'
+import { ref, reactive, onMounted, computed } from 'vue'
+import { getImages, addNumber, preloadImage, cacheImage } from '../utils/tool'
+import type { ImageAsset } from '../utils/tool'
+const displayedImages = ref<ImageAsset[]>([])
+const imageCache = new Map<string, HTMLImageElement>()
+
+
 </script>
 
 <style  lang='less' scoped>
