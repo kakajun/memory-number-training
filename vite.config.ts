@@ -11,7 +11,7 @@ import {
   presetIcons,
   presetUno,
   transformerDirectives,
-  transformerVariantGroup,
+  transformerVariantGroup
 } from 'unocss'
 
 const pathSrc = path.resolve(__dirname, 'src')
@@ -20,15 +20,16 @@ const pathSrc = path.resolve(__dirname, 'src')
 export default defineConfig({
   resolve: {
     alias: {
-      '~/': `${pathSrc}/`,
-    },
+      '~/': `${pathSrc}/`
+    }
   },
+  base: './',
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "~/styles/element/index.scss" as *;`,
-      },
-    },
+        additionalData: `@use "~/styles/element/index.scss" as *;`
+      }
+    }
   },
   plugins: [
     vue(),
@@ -39,10 +40,10 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       resolvers: [
         ElementPlusResolver({
-          importStyle: 'sass',
-        }),
+          importStyle: 'sass'
+        })
       ],
-      dts: 'src/components.d.ts',
+      dts: 'src/components.d.ts'
     }),
 
     // https://github.com/antfu/unocss
@@ -53,13 +54,10 @@ export default defineConfig({
         presetAttributify(),
         presetIcons({
           scale: 1.2,
-          warn: true,
-        }),
+          warn: true
+        })
       ],
-      transformers: [
-        transformerDirectives(),
-        transformerVariantGroup(),
-      ]
-    }),
-  ],
+      transformers: [transformerDirectives(), transformerVariantGroup()]
+    })
+  ]
 })
