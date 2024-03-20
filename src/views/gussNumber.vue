@@ -32,18 +32,40 @@
       <p>用时: {{ elapsedTime }} 秒</p>
     </div>
   </div>
+
+  <el-dialog
+    v-model="dialogVisible"
+    title="恭喜！"
+    append-to-body
+    width="500"
+    :before-close="handleClose"
+  >
+    <div class="content">
+      <span>本轮游戏您的成绩：</span>
+      <p style="color: green">正确: {{ correctCount }}</p>
+      <p style="color: red">错误: {{ wrongCount }}</p>
+      <p>用时: {{ elapsedTime }} 秒</p>
+    </div>
+
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button type="primary" @click="handleClose"> 确认 </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
 import { shuffleArray, randomNum } from '../utils/tool'
-
+import { ElMessage, ElMessageBox } from 'element-plus'
+const dialogVisible = ref(false)
 const currentNumber = ref('00')
 const correctCount = ref(0)
 const wrongCount = ref(0)
 const startTime = ref(new Date().toLocaleTimeString())
 const elapsedTime = ref(0)
-const timer = setInterval(() => {
+let timer = setInterval(() => {
   elapsedTime.value++
 }, 1000)
 
@@ -55,22 +77,22 @@ type ImageAsset = {
 } // 或者更具体的类型
 const displayedImages = ref<ImageAsset[]>([])
 
-const updateDisplayedImages = async () => {
-  let temp = <ImageAsset[]>[]
-  // 实现选择图片的逻辑，确保一个匹配当前数字，其他随机
-  for (let index = 0; index < 3; index++) {
-    const name = randomNum()
-    const imageObject = { name, url: '/src/assets/memoryImg/' + name + '.png' }
-    temp.push(imageObject)
-  }
-  temp.push({
-    name: currentNumber.value,
-    url: '/src/assets/memoryImg/' + currentNumber.value + '.png'
-  })
-  // 任意打乱temp里面的顺序
-  temp = shuffleArray(temp)
-  console.log(temp, 'shuffleArray')
+const createImageAsset = (name: string) => ({
+  name,
+  url: `/src/assets/memoryImg/${name}.png`
+})
 
+const updateDisplayedImages = async () => {
+  const uniqueNumbers = new Set()
+  uniqueNumbers.add(currentNumber.value)
+  while (uniqueNumbers.size < 4) {
+    const name = randomNum()
+    if (name !== currentNumber.value) {
+      uniqueNumbers.add(name)
+    }
+  }
+  let temp = Array.from(uniqueNumbers).map(createImageAsset)
+  temp = shuffleArray(temp)
   displayedImages.value = temp
 }
 
@@ -78,6 +100,19 @@ const updateDisplayedImages = async () => {
 function addNumber() {
   const num = Number(currentNumber.value)
   return num >= 9 ? String(num + 1) : '0' + String(num + 1)
+}
+
+const handleClose = () => {
+  dialogVisible.value = false
+  currentNumber.value = '00'
+  correctCount.value = 0
+  wrongCount.value = 0
+  startTime.value = new Date().toLocaleTimeString()
+  elapsedTime.value = 0
+  timer = setInterval(() => {
+    elapsedTime.value++
+  }, 1000)
+  updateDisplayedImages()
 }
 
 /**
@@ -94,9 +129,11 @@ const checkAnswer = (name: string) => {
 }
 
 watch(currentNumber, newValue => {
-  if (newValue === '99') {
+  const num = Number(newValue)
+  if (num > 99) {
     clearInterval(timer) // 停止计时
-    alert('游戏结束')
+    dialogVisible.value = true
+    return
   }
   updateDisplayedImages()
 })
@@ -160,5 +197,10 @@ onMounted(() => {
 .game-time {
   margin-top: 20px;
   font-size: 18px;
+}
+.content {
+  width: 180px;
+  font-size: 16px;
+  margin: 0 auto;
 }
 </style>
