@@ -23,7 +23,9 @@ export default defineConfig({
       '~/': `${pathSrc}/`
     }
   },
-  base: './',
+  base:
+    process.env.NODE_ENV === 'production' ? '/memory-number-training/' : './',
+  // base: './',
   css: {
     preprocessorOptions: {
       scss: {
