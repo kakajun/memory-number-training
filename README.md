@@ -1,4 +1,5 @@
 # memory-number-training
+包含顺序记忆和随机记忆
 
 ## Project setup
 
