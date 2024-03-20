@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { toggleDark } from '~/composables'
 import { useRouter, useRoute } from 'vue-router'
-import { defineComponent, ref, onMounted, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 const route = useRoute()
 const activeIndex = ref('/')
 // 获取路由实例并立即调用push方法
@@ -27,7 +27,7 @@ watch(
     <el-menu-item index="/random" @click="pushUrl('/random')"
       >随机选图</el-menu-item
     >
-    <el-menu-item index="4">Orders</el-menu-item>
+    <el-menu-item index="/makeStory"  @click="pushUrl('/makeStory')">看图说话</el-menu-item>
     <el-menu-item h="full" @click="toggleDark()">
       <button
         class="border-none w-full bg-transparent cursor-pointer"

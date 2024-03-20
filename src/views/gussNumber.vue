@@ -32,35 +32,24 @@
       <p>开始时间: {{ startTime }}</p>
     </div>
   </div>
-
-  <el-dialog
-    v-model="dialogVisible"
-    title="恭喜！"
-    append-to-body
-    width="500"
-    :before-close="handleClose"
-  >
-    <div class="content">
-      <span>本轮游戏您的成绩：</span>
-      <p style="color: green">正确: {{ correctCount }}</p>
-      <p style="color: red">错误: {{ wrongCount }}</p>
-      <p>用时: {{ elapsedTime }} 秒</p>
-    </div>
-
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button type="primary" @click="handleClose"> 确认 </el-button>
-      </div>
-    </template>
-  </el-dialog>
+  <rightDialog
+    v-model:visible="dialogVisible"
+    :formattedElapsedTime="formattedElapsedTime"
+    :wrongCount="wrongCount"
+    :startTime="startTime"
+    @close="handleClose"
+  ></rightDialog>
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref, onMounted, watch, computed } from 'vue'
-import { getImages, addNumber, preloadImage, cacheImage } from '../utils/tool'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { addNumber } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
-import { useElapsedTimeFormatter } from '../utils/useElapsedTimeFormatter'
-
+import {
+  useElapsedTimeFormatter,
+  getCacheImage
+} from '../utils/useElapsedTimeFormatter'
+import rightDialog from '../components/RightDialog.vue'
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
 const correctCount = ref(0)
@@ -71,30 +60,21 @@ let timer = setInterval(() => {
   elapsedTime.value++
 }, 1000)
 
-const fileTypes = [] // 接收所有图片
+onBeforeUnmount(() => {
+  // 消除定时器
+  clearInterval(timer)
+})
+
 const displayedImages = ref<ImageAsset[]>([])
 
-
-const formattedElapsedTime = useElapsedTimeFormatter(elapsedTime.value)
-let cacheTemp: { name: string; url: string }[] = []
+const formattedElapsedTime = useElapsedTimeFormatter(elapsedTime)
+let cacheTemp: ImageAsset[] = []
 
 /**
  * @description: 由于外网速度慢,如果点击时再去加载图片,那么会导致卡顿,所以先预加载图片,这里拿的是上次已经缓存好的图片
  */
-const updateDisplayedImages = async () => {
+const updateDisplayedImages = () => {
   displayedImages.value = [...cacheTemp]
-}
-
-/**
- * @description: 加载图片
- */
-const getCacheImage = async (value: string) => {
-  let temp = getImages(value)
-  for (let index = 0; index < temp.length; index++) {
-    const item = temp[index]
-    await cacheImage(item, imageCache)
-  }
-  return temp
 }
 
 const handleClose = () => {
@@ -130,6 +110,7 @@ const checkAnswer = async (name: string) => {
   updateDisplayedImages()
   // 更新当前数字
   currentNumber.value = nextNumber
+  if (num > 99) return
   // 更新缓存图片
   cacheTemp = await getCacheImage(addNumber(currentNumber.value))
 }
@@ -203,10 +184,5 @@ onMounted(() => {
 .game-time {
   margin-top: 20px;
   font-size: 18px;
-}
-.content {
-  width: 180px;
-  font-size: 16px;
-  margin: 0 auto;
 }
 </style>

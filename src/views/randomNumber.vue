@@ -28,37 +28,31 @@
 
     <!-- 游戏时间 -->
     <div class="game-time">
+      <p>用时: {{ formattedElapsedTime }}</p>
       <p>开始时间: {{ startTime }}</p>
-      <p>用时: {{ elapsedTime }} 秒</p>
     </div>
   </div>
-  <el-dialog
-    v-model="dialogVisible"
-    title="恭喜！"
-    append-to-body
-    width="500"
-    :before-close="handleClose"
-  >
-    <div class="content">
-      <span>本轮游戏您的成绩：</span>
-      <p style="color: green">正确: {{ correctCount }}</p>
-      <p style="color: red">错误: {{ wrongCount }}</p>
-      <p>用时: {{ elapsedTime }} 秒</p>
-    </div>
-
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button type="primary" @click="handleClose"> 确认 </el-button>
-      </div>
-    </template>
-  </el-dialog>
+  <rightDialog
+    v-model:visible="dialogVisible"
+    :formattedElapsedTime="formattedElapsedTime"
+    :wrongCount="wrongCount"
+    :startTime="startTime"
+    @close="handleClose"
+  ></rightDialog>
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref, onMounted, watch, computed } from 'vue'
-import { uniqueNumberGenerator, getImages } from '../utils/tool'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { uniqueNumberGenerator } from '../utils/tool'
+import type { ImageAsset } from '../utils/tool'
+import {
+  useElapsedTimeFormatter,
+  getCacheImage
+} from '../utils/useElapsedTimeFormatter'
+import rightDialog from '../components/RightDialog.vue'
 // 创建一个生成器实例
 const generator = uniqueNumberGenerator()
+const nextNumber = ref('')
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
 const correctCount = ref(0)
@@ -68,19 +62,20 @@ const elapsedTime = ref(0)
 let timer = setInterval(() => {
   elapsedTime.value++
 }, 1000)
-
-const fileTypes = [] // 接收所有图片
-
-type ImageAsset = {
-  name: string
-  url: string
-} // 或者更具体的类型
+onBeforeUnmount(() => {
+  // 消除定时器
+  clearInterval(timer)
+})
 const displayedImages = ref<ImageAsset[]>([])
 
-const updateDisplayedImages = async () => {
-  currentNumber.value = generator()
-  let temp = getImages(currentNumber.value)
-  displayedImages.value = temp
+const formattedElapsedTime = useElapsedTimeFormatter(elapsedTime)
+let cacheTemp: { name: string; url: string }[] = []
+
+/**
+ * @description: 由于外网速度慢,如果点击时再去加载图片,那么会导致卡顿,所以先预加载图片,这里拿的是上次已经缓存好的图片
+ */
+const updateDisplayedImages = () => {
+  displayedImages.value = [...cacheTemp]
 }
 
 const handleClose = () => {
@@ -93,31 +88,46 @@ const handleClose = () => {
   timer = setInterval(() => {
     elapsedTime.value++
   }, 1000)
+  init()
+}
+
+/**
+ * @description: 初始化图片
+ */
+const init = async () => {
+  cacheTemp = await getCacheImage(currentNumber.value)
   updateDisplayedImages()
+  nextNumber.value = generator()
+  cacheTemp = await getCacheImage(nextNumber.value)
 }
 
 /**
  * @description: 图片点击事件
  * @param {*} name
  */
-const checkAnswer = (name: string) => {
+const checkAnswer = async (name: string) => {
   if (name === currentNumber.value) {
     correctCount.value++
   } else {
     wrongCount.value++
   }
-  updateDisplayedImages()
-}
-
-watch(currentNumber, newValue => {
-  if (wrongCount.value + correctCount.value === 99) {
+  if (wrongCount.value + correctCount.value === 100) {
     clearInterval(timer) // 停止计时
     dialogVisible.value = true
+    return
   }
-})
+  updateDisplayedImages()
+  // 更新当前数字
+  currentNumber.value = nextNumber.value
+  nextNumber.value = generator()
+  if (Number(nextNumber.value) > 100) return
+  // 更新缓存图片
+  cacheTemp = await getCacheImage(nextNumber.value)
+}
 
 onMounted(() => {
-  updateDisplayedImages()
+  currentNumber.value = generator()
+  init()
 })
 </script>
 <style scoped>
@@ -175,10 +185,5 @@ onMounted(() => {
 .game-time {
   margin-top: 20px;
   font-size: 18px;
-}
-.content {
-  width: 180px;
-  font-size: 16px;
-  margin: 0 auto;
 }
 </style>

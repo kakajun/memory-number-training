@@ -1,9 +1,10 @@
-// useElapsedTimeFormatter.ts
-import { computed } from 'vue'
+import { computed, Ref } from 'vue'
+import { getImages, cacheImage } from '../utils/tool'
 const imageCache = new Map<string, HTMLImageElement>()
-export function useElapsedTimeFormatter(rawTime: number) {
+
+export function useElapsedTimeFormatter(rawTime: Ref<number>) {
   const elapsedTime = computed(() => {
-    let time: number | string = rawTime
+    let time: number | string = rawTime.value
     // 如果大于等于60秒,格式化为分钟和秒
     if (time >= 60) {
       time = `${Math.floor(time / 60)}分${time % 60}秒`
@@ -14,4 +15,16 @@ export function useElapsedTimeFormatter(rawTime: number) {
   })
 
   return elapsedTime
+}
+
+/**
+ * @description: 加载图片
+ */
+export const getCacheImage = async (value: string) => {
+  let temp = getImages(value)
+  for (let index = 0; index < temp.length; index++) {
+    const item = temp[index]
+    await cacheImage(item, imageCache)
+  }
+  return temp
 }

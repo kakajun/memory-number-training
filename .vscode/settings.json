@@ -117,7 +117,7 @@
       "source.fixAll.eslint": "never",
       "source.fixAll.stylelint": "explicit"
     },
-    "editor.defaultFormatter": "octref.vetur"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "fileheader.customMade": {
     "autoAdd": false //关闭自动生成头部注释

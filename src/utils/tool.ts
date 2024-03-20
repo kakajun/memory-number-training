@@ -9,34 +9,37 @@ export function shuffleArray(array: any[]) {
 }
 
 // 随机生成0-9的数字
-export function randomNum() {
+export function randomNum(): string {
   const numSt1 = String(Math.floor(Math.random() * 10))
   const numSt2 = String(Math.floor(Math.random() * 10))
   return numSt1 + numSt2
 }
 
 /**
- * @description: 生成唯一随机数
+ * @description: 生成0-99 唯一随机数
  */
 export function uniqueNumberGenerator(): () => string {
-  const generatedNumbers = new Set() // 存储已生成的数字
+  // 生成0-99的数组步长为1, 1位数前面补0
+  const randomNumbers = Array.from({ length: 100 }, (_, i) => {
+    return i < 10 ? '0' + i : i
+  })
+  const generatedNumbers = shuffleArray(randomNumbers)
   return function generate() {
-    let newNumber
-    do {
-      newNumber = randomNum()
-    } while (generatedNumbers.has(newNumber)) // 如果数字已存在，重新生成
-    generatedNumbers.add(newNumber) // 添加新生成的唯一数字到集合中
+    // 每次调用取最后一个元素,generatedNumbers去掉一个
+    const newNumber = generatedNumbers.pop()
     return newNumber
   }
 }
+
 const baseUrl = import.meta.env.BASE_URL
-export const createImageAsset = (name: string) => ({
+
+export const createImageAsset = (name: string): ImageAsset => ({
   name,
   url: baseUrl + `memoryImg/${name}.png`
 })
 
-export function getImages(value: string) {
-  const uniqueNumbers = new Set()
+export function getImages(value: string): ImageAsset[] {
+  const uniqueNumbers = new Set<string>()
   uniqueNumbers.add(value)
   while (uniqueNumbers.size < 4) {
     const name = randomNum()
