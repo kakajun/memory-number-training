@@ -32,7 +32,7 @@ export function uniqueNumberGenerator(): () => string {
 
 export const createImageAsset = (name: string) => ({
   name,
-  url: `/src/assets/memoryImg/${name}.png`
+  url: `/memoryImg/${name}.png`
 })
 
 export function getImages(value: string) {
