@@ -29,3 +29,28 @@ export function uniqueNumberGenerator(): () => string {
     return newNumber
   }
 }
+
+export const createImageAsset = (name: string) => ({
+  name,
+  url: `/src/assets/memoryImg/${name}.png`
+})
+
+export function getImages(value: string) {
+  const uniqueNumbers = new Set()
+  uniqueNumbers.add(value)
+  while (uniqueNumbers.size < 4) {
+    const name = randomNum()
+    if (name !== value) {
+      uniqueNumbers.add(name)
+    }
+  }
+  let temp = Array.from(uniqueNumbers).map(createImageAsset)
+  temp = shuffleArray(temp)
+  return temp
+}
+
+// 设置方法给currentNumber每次加1,如果是个位数前面补0
+export function addNumber(value: string) {
+  const num = Number(value)
+  return num >= 9 ? String(num + 1) : '0' + String(num + 1)
+}

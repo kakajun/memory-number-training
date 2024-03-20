@@ -32,20 +32,40 @@
       <p>用时: {{ elapsedTime }} 秒</p>
     </div>
   </div>
+  <el-dialog
+    v-model="dialogVisible"
+    title="恭喜！"
+    append-to-body
+    width="500"
+    :before-close="handleClose"
+  >
+    <div class="content">
+      <span>本轮游戏您的成绩：</span>
+      <p style="color: green">正确: {{ correctCount }}</p>
+      <p style="color: red">错误: {{ wrongCount }}</p>
+      <p>用时: {{ elapsedTime }} 秒</p>
+    </div>
+
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button type="primary" @click="handleClose"> 确认 </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
-import { shuffleArray, randomNum, uniqueNumberGenerator } from '../utils/tool'
+import { uniqueNumberGenerator, getImages } from '../utils/tool'
 // 创建一个生成器实例
 const generator = uniqueNumberGenerator()
-const usedList = ref([])
+const dialogVisible = ref(false)
 const currentNumber = ref('00')
 const correctCount = ref(0)
 const wrongCount = ref(0)
 const startTime = ref(new Date().toLocaleTimeString())
 const elapsedTime = ref(0)
-const timer = setInterval(() => {
+let timer = setInterval(() => {
   elapsedTime.value++
 }, 1000)
 
@@ -57,29 +77,23 @@ type ImageAsset = {
 } // 或者更具体的类型
 const displayedImages = ref<ImageAsset[]>([])
 
-// 用闭包的方式生成一个数字,要求数字不能重复
-
 const updateDisplayedImages = async () => {
   currentNumber.value = generator()
-  // 随机生成 00 -99 之间一个数
-  let temp = <ImageAsset[]>[]
-  // 实现选择图片的逻辑，确保一个匹配当前数字，其他随机
-  for (let index = 0; index < 3; index++) {
-    // 随机生成0-9的数字
-    const numSt1 = String(Math.floor(Math.random() * 10))
-    const numSt2 = String(Math.floor(Math.random() * 10))
-    const name = numSt1 + numSt2
-    const imageObject = { name, url: '/src/assets/memoryImg/' + name + '.png' }
-    temp.push(imageObject)
-  }
-  temp.push({
-    name: currentNumber.value,
-    url: '/src/assets/memoryImg/' + currentNumber.value + '.png'
-  })
-  // 任意打乱temp里面的顺序
-  temp = shuffleArray(temp)
-  console.log(temp, 'shuffleArray')
+  let temp = getImages(currentNumber.value)
   displayedImages.value = temp
+}
+
+const handleClose = () => {
+  dialogVisible.value = false
+  currentNumber.value = '00'
+  correctCount.value = 0
+  wrongCount.value = 0
+  startTime.value = new Date().toLocaleTimeString()
+  elapsedTime.value = 0
+  timer = setInterval(() => {
+    elapsedTime.value++
+  }, 1000)
+  updateDisplayedImages()
 }
 
 /**
@@ -92,14 +106,14 @@ const checkAnswer = (name: string) => {
   } else {
     wrongCount.value++
   }
+  updateDisplayedImages()
 }
 
 watch(currentNumber, newValue => {
   if (wrongCount.value + correctCount.value === 99) {
     clearInterval(timer) // 停止计时
-    alert('游戏结束')
+    dialogVisible.value = true
   }
-  updateDisplayedImages()
 })
 
 onMounted(() => {
@@ -161,5 +175,10 @@ onMounted(() => {
 .game-time {
   margin-top: 20px;
   font-size: 18px;
+}
+.content {
+  width: 180px;
+  font-size: 16px;
+  margin: 0 auto;
 }
 </style>

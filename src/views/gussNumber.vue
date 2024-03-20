@@ -57,8 +57,8 @@
 
 <script setup lang="ts">
 import { defineComponent, ref, onMounted, watch, computed } from 'vue'
-import { shuffleArray, randomNum } from '../utils/tool'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { getImages, addNumber } from '../utils/tool'
+
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
 const correctCount = ref(0)
@@ -77,29 +77,9 @@ type ImageAsset = {
 } // 或者更具体的类型
 const displayedImages = ref<ImageAsset[]>([])
 
-const createImageAsset = (name: string) => ({
-  name,
-  url: `/src/assets/memoryImg/${name}.png`
-})
-
 const updateDisplayedImages = async () => {
-  const uniqueNumbers = new Set()
-  uniqueNumbers.add(currentNumber.value)
-  while (uniqueNumbers.size < 4) {
-    const name = randomNum()
-    if (name !== currentNumber.value) {
-      uniqueNumbers.add(name)
-    }
-  }
-  let temp = Array.from(uniqueNumbers).map(createImageAsset)
-  temp = shuffleArray(temp)
+  let temp = getImages(currentNumber.value)
   displayedImages.value = temp
-}
-
-// 设置方法给currentNumber每次加1,如果是个位数前面补0
-function addNumber() {
-  const num = Number(currentNumber.value)
-  return num >= 9 ? String(num + 1) : '0' + String(num + 1)
 }
 
 const handleClose = () => {
@@ -125,7 +105,7 @@ const checkAnswer = (name: string) => {
   } else {
     wrongCount.value++
   }
-  currentNumber.value = addNumber()
+  currentNumber.value = addNumber(currentNumber.value)
 }
 
 watch(currentNumber, newValue => {
