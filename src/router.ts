@@ -13,7 +13,9 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(
+    process.env.NODE_ENV === 'production' ? '/memory-number-training/' : './'
+  ),
   routes
 })
 
