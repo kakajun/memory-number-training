@@ -28,8 +28,8 @@
 
     <!-- 游戏时间 -->
     <div class="game-time">
+      <p>用时: {{ cputElapsedTime }}</p>
       <p>开始时间: {{ startTime }}</p>
-      <p>用时: {{ elapsedTime }} 秒</p>
     </div>
   </div>
 
@@ -94,15 +94,33 @@ const cacheImage = async (image: ImageAsset) => {
     imageCache.set(image.url, cachedImage)
   }
 }
+
+const cputElapsedTime = computed<string>(() => {
+  let time: number | string = elapsedTime.value
+  // 如果大于等于60秒,格式化为分钟和秒
+  if (time >= 60) {
+    time = `${Math.floor(time / 60)}分${time % 60}秒`
+  } else {
+    time = time + '秒' // 将小于60秒的时间转为字符串形式
+  }
+  return time as string
+})
 let cacheTemp: { name: string; url: string }[] = []
+
+/**
+ * @description: 由于外网速度慢,如果点击时再去加载图片,那么会导致卡顿,所以先预加载图片,这里拿的是上次已经缓存好的图片
+ */
 const updateDisplayedImages = async () => {
   displayedImages.value = [...cacheTemp]
 }
+
 /**
  * @description: 加载图片
  */
-const getCacheImage = async () => {
-  let temp = getImages(addNumber(currentNumber.value))
+const getCacheImage = async (value: string) => {
+  console.log(value, '加载图片')
+
+  let temp = getImages(value)
   for (let index = 0; index < temp.length; index++) {
     const item = temp[index]
     await cacheImage(item)
@@ -133,24 +151,32 @@ const checkAnswer = (name: string) => {
   } else {
     wrongCount.value++
   }
-  currentNumber.value = addNumber(currentNumber.value)
-  getCacheImage()
-}
-
-watch(currentNumber, newValue => {
-  const num = Number(newValue)
+  let nextNumber = addNumber(currentNumber.value)
+  const num = Number(nextNumber)
   if (num > 99) {
     clearInterval(timer) // 停止计时
     dialogVisible.value = true
     return
   }
   updateDisplayedImages()
-})
+  // 更新当前数字
+  currentNumber.value = nextNumber
+  // 更新缓存图片
+  getCacheImage(addNumber(currentNumber.value))
+}
 
-onMounted(async () => {
-  await getCacheImage()
+/**
+ * @description: 初始化图片
+ */
+const init = async () => {
+  await getCacheImage(currentNumber.value)
   updateDisplayedImages()
-  await getCacheImage() // 多加载一次
+  let nextNumber = addNumber(currentNumber.value)
+  await getCacheImage(nextNumber)
+}
+
+onMounted(() => {
+  init()
 })
 </script>
 <style scoped>
