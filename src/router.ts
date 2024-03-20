@@ -11,11 +11,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('./views/randomNumber.vue')
   }
 ]
-
+const baseUrl = import.meta.env.BASE_URL
 const router = createRouter({
-  history: createWebHistory(
-    process.env.NODE_ENV === 'production' ? '/memory-number-training/' : './'
-  ),
+  history: createWebHistory(baseUrl),
   routes
 })
 

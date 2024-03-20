@@ -29,13 +29,10 @@ export function uniqueNumberGenerator(): () => string {
     return newNumber
   }
 }
-
+const baseUrl = import.meta.env.BASE_URL
 export const createImageAsset = (name: string) => ({
   name,
-  url:
-    process.env.NODE_ENV === 'production'
-      ? `/memory-number-training/memoryImg/${name}.png`
-      : `/memoryImg/${name}.png`
+  url: baseUrl + `memoryImg/${name}.png`
 })
 
 export function getImages(value: string) {
