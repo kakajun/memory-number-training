@@ -2,6 +2,9 @@ import { computed, Ref } from 'vue'
 import { getImages, cacheImage } from '../utils/tool'
 const imageCache = new Map<string, HTMLImageElement>()
 
+/**
+ * @description: 格式化显示
+ */
 export function useElapsedTimeFormatter(rawTime: Ref<number>) {
   const elapsedTime = computed(() => {
     let time: number | string = rawTime.value

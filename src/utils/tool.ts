@@ -1,3 +1,6 @@
+/**
+ * 给数组洗牌
+ */
 export function shuffleArray(array: any[]) {
   for (let i = array.length - 1; i > 0; i--) {
     // 生成从0到i的随机索引
@@ -8,11 +11,18 @@ export function shuffleArray(array: any[]) {
   return array
 }
 
-// 随机生成0-9的数字
-export function randomNum(): string {
-  const numSt1 = String(Math.floor(Math.random() * 10))
-  const numSt2 = String(Math.floor(Math.random() * 10))
-  return numSt1 + numSt2
+/**
+ * 生成一个两位的随机数字符串
+ * @returns 生成的随机数字符串
+ */
+export function randomNumberString(): string {
+  // 使用Math.random()生成0到1之间的随机小数
+  const randomDecimal = Math.random()
+  // 将随机小数转换为0到99之间的整数
+  const randomInteger = Math.floor(randomDecimal * 100)
+  // 将整数转换为两位的字符串
+  const randomString = randomInteger.toString().padStart(2, '0')
+  return randomString
 }
 
 /**
@@ -38,11 +48,14 @@ export const createImageAsset = (name: string): ImageAsset => ({
   url: baseUrl + `memoryImg/${name}.png`
 })
 
+/**
+ * @description: 根据数字生成随机3个数的图片组, 要求不重复,且不能有多个自己
+ */
 export function getImages(value: string): ImageAsset[] {
   const uniqueNumbers = new Set<string>()
   uniqueNumbers.add(value)
   while (uniqueNumbers.size < 4) {
-    const name = randomNum()
+    const name = randomNumberString()
     if (name !== value) {
       uniqueNumbers.add(name)
     }
@@ -58,8 +71,9 @@ export function addNumber(value: string) {
   return num >= 9 ? String(num + 1) : '0' + String(num + 1)
 }
 
-// imagePreloader.ts
-
+/**
+ * @description: 根据url缓存图片
+ */
 export async function preloadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image()
@@ -71,7 +85,11 @@ export async function preloadImage(url: string): Promise<HTMLImageElement> {
 export type ImageAsset = {
   name: string
   url: string
-} // 或者更具体的类型
+}
+
+/**
+ * @description: 根据url获取图片, 有就拿缓存图片,没有就预先加载
+ */
 export function cacheImage(
   image: ImageAsset,
   imageCache: Map<string, HTMLImageElement>
