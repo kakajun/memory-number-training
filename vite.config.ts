@@ -18,6 +18,15 @@ const pathSrc = path.resolve(__dirname, 'src')
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/app': {
+        target: 'https://dashscope.aliyuncs.com',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/app/, '')
+      }
+    }
+  },
   resolve: {
     alias: {
       '~/': `${pathSrc}/`

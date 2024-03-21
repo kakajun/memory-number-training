@@ -38,6 +38,7 @@ import {
   useElapsedTimeFormatter,
   getCacheImage
 } from '../utils/useElapsedTimeFormatter'
+import { postAnswer } from '../api/ali'
 
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
@@ -94,8 +95,30 @@ const init = async () => {
   let nextNumber = addNumber(currentNumber.value)
   cacheTemp = await getCacheImage(nextNumber)
 }
-
+const getTonyi = async () => {
+  const params = {
+    model: 'qwen-turbo',
+    input: {
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a helpful assistant.'
+        },
+        {
+          role: 'user',
+          content: '用 衣服  口哨  药酒 这几个词编一个简短的故事'
+        }
+      ]
+    },
+    parameters: {}
+  }
+  const res = await postAnswer(params)
+  if (res.code == 200) {
+    console.log(res)
+  }
+}
 onMounted(() => {
+  getTonyi()
   init()
 })
 </script>
