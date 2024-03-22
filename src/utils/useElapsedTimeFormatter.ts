@@ -23,8 +23,8 @@ export function useElapsedTimeFormatter(rawTime: Ref<number>) {
 /**
  * @description: 加载图片
  */
-export const getCacheImage = async (value: string) => {
-  let temp = getImages(value)
+export const getCacheImage = async (value: string, count?: number) => {
+  let temp = getImages(value, count)
   for (let index = 0; index < temp.length; index++) {
     const item = temp[index]
     await cacheImage(item, imageCache)

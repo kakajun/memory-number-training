@@ -1,10 +1,5 @@
 <template>
   <div class="memory-game">
-    <!-- 数字显示与统计 -->
-    <div class="top-section">
-      <div class="number-display">{{ currentNumber }}</div>
-    </div>
-
     <!-- 图片展示区域 -->
     <div class="bottom-section">
       <div class="image-grid">
@@ -13,6 +8,7 @@
           :key="image.name"
           class="image-cell"
         >
+          <div class="number-display">{{ image.name }}</div>
           <img
             :src="image.url"
             :alt="image.name"
@@ -21,7 +17,14 @@
         </div>
       </div>
     </div>
-
+    <div class="below-text">
+      <el-input v-model="storyText" type="text"></el-input>
+    </div>
+    <div class="btn-group">
+      <el-button type="primary" size="middle" @click="addGroup"
+        >加一组</el-button
+      >
+    </div>
     <!-- 游戏时间 -->
     <div class="game-time">
       <p>用时: {{ formattedElapsedTime }}</p>
@@ -39,7 +42,8 @@ import {
   getCacheImage
 } from '../utils/useElapsedTimeFormatter'
 import { postAnswer } from '../api/ali'
-
+const count = ref(4)
+const storyText = ref('asdfasdfas')
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
 
@@ -83,17 +87,17 @@ const checkAnswer = async (name: string) => {
   currentNumber.value = nextNumber
   if (num > 99) return
   // 更新缓存图片
-  cacheTemp = await getCacheImage(addNumber(currentNumber.value))
+  cacheTemp = await getCacheImage(addNumber(currentNumber.value), count.value)
 }
 
 /**
  * @description: 初始化图片
  */
 const init = async () => {
-  cacheTemp = await getCacheImage(currentNumber.value)
+  cacheTemp = await getCacheImage(currentNumber.value, count.value)
   updateDisplayedImages()
   let nextNumber = addNumber(currentNumber.value)
-  cacheTemp = await getCacheImage(nextNumber)
+  cacheTemp = await getCacheImage(nextNumber, count.value)
 }
 const getTonyi = async () => {
   const params = {
@@ -106,7 +110,7 @@ const getTonyi = async () => {
         },
         {
           role: 'user',
-          content: '用 衣服  口哨  药酒 这几个词编一个简短的故事'
+          content: '用 衣服  口哨  药酒 这几个词编一个非常简短的故事'
         }
       ]
     },
@@ -117,12 +121,25 @@ const getTonyi = async () => {
     console.log(res)
   }
 }
+
+const addGroup = () => {
+  count.value = count.value + 4
+  init()
+  getTonyi()
+}
 onMounted(() => {
   getTonyi()
   init()
 })
 </script>
 <style scoped>
+.below-text {
+  width: 600px;
+  margin-top: 40px;
+}
+.btn-group {
+  margin-top: 40px;
+}
 .memory-game {
   display: flex;
   flex-direction: column;
@@ -137,7 +154,7 @@ onMounted(() => {
 }
 
 .number-display {
-  font-size: 48px;
+  font-size: 40px;
   font-weight: bold;
   margin-bottom: 10px;
 }
