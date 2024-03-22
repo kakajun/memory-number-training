@@ -17,7 +17,9 @@
         </div>
       </div>
     </div>
+
     <div class="below-text">
+      <div class="tittle-text">记忆攻略:</div>
       <el-input
         v-model="storyText"
         :readonly="true"
@@ -29,11 +31,6 @@
       <el-button type="primary" size="middle" @click="addGroup"
         >加一组</el-button
       >
-    </div>
-    <!-- 游戏时间 -->
-    <div class="game-time">
-      <p>用时: {{ formattedElapsedTime }}</p>
-      <p>开始时间: {{ startTime }}</p>
     </div>
   </div>
 </template>
@@ -53,20 +50,8 @@ const storyText = ref('思考中.......')
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
 
-const startTime = ref(new Date().toLocaleTimeString())
-const elapsedTime = ref(0)
-let timer = setInterval(() => {
-  elapsedTime.value++
-}, 1000)
-
-onBeforeUnmount(() => {
-  // 消除定时器
-  clearInterval(timer)
-})
-
 const displayedImages = ref<ImageAsset[]>([])
 
-const formattedElapsedTime = useElapsedTimeFormatter(elapsedTime)
 let cacheTemp: ImageAsset[] = []
 
 /**
@@ -83,15 +68,14 @@ const updateDisplayedImages = () => {
 const checkAnswer = async (name: string) => {
   let nextNumber = addNumber(currentNumber.value)
   const num = Number(nextNumber)
-  if (num > 99) {
-    clearInterval(timer) // 停止计时
-    dialogVisible.value = true
-    return
-  }
+
   updateDisplayedImages()
+  getTonyi()
   // 更新当前数字
   currentNumber.value = nextNumber
-  if (num > 99) return
+  if (num > 99) {
+    currentNumber.value = '00'
+  }
   // 更新缓存图片
   cacheTemp = await getCacheImage(addNumber(currentNumber.value), count.value)
 }
@@ -115,7 +99,6 @@ const getTonyi = async () => {
     const obj = numImg.find(item => item.id === o.name)
     return obj && obj.name
   })
-  debugger
   const params = {
     model: 'qwen-turbo',
     input: {
@@ -126,7 +109,10 @@ const getTonyi = async () => {
         },
         {
           role: 'user',
-          content: '用' + names.join(',') + '这几个词编一个非常简短的故事'
+          content:
+            '用' +
+            names.join(',') +
+            '这几个词编一个非常简短的故事,说明:1.我只是想用记忆法记住这几个词,2.注意词的出现按顺序'
         }
       ]
     },
@@ -155,6 +141,11 @@ onMounted(async () => {
 .below-text {
   width: 600px;
   margin-top: 40px;
+}
+.tittle-text {
+  text-align: left;
+  font-size: 18px;
+  padding-bottom: 10px;
 }
 .btn-group {
   margin-top: 40px;
@@ -208,10 +199,5 @@ onMounted(async () => {
 
 .image-cell img:hover {
   border-color: #007bff;
-}
-
-.game-time {
-  margin-top: 20px;
-  font-size: 18px;
 }
 </style>
