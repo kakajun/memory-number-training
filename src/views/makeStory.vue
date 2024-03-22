@@ -18,7 +18,12 @@
       </div>
     </div>
     <div class="below-text">
-      <el-input v-model="storyText" type="text"></el-input>
+      <el-input
+        v-model="storyText"
+        :readonly="true"
+        type="textarea"
+        autosize
+      ></el-input>
     </div>
     <div class="btn-group">
       <el-button type="primary" size="middle" @click="addGroup"
@@ -41,9 +46,10 @@ import {
   useElapsedTimeFormatter,
   getCacheImage
 } from '../utils/useElapsedTimeFormatter'
+import numImg from '../utils/numImg'
 import { postAnswer } from '../api/ali'
 const count = ref(4)
-const storyText = ref('asdfasdfas')
+const storyText = ref('思考中.......')
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
 
@@ -99,7 +105,17 @@ const init = async () => {
   let nextNumber = addNumber(currentNumber.value)
   cacheTemp = await getCacheImage(nextNumber, count.value)
 }
+
+/**
+ * @description: 根据图片编故事
+ */
 const getTonyi = async () => {
+  storyText.value = '思考中.......'
+  const names = displayedImages.value.map(o => {
+    const obj = numImg.find(item => item.id === o.name)
+    return obj && obj.name
+  })
+  debugger
   const params = {
     model: 'qwen-turbo',
     input: {
@@ -110,29 +126,32 @@ const getTonyi = async () => {
         },
         {
           role: 'user',
-          content: '用 衣服  口哨  药酒 这几个词编一个非常简短的故事'
+          content: '用' + names.join(',') + '这几个词编一个非常简短的故事'
         }
       ]
     },
     parameters: {}
   }
   const res = await postAnswer(params)
-  if (res.code == 200) {
-    console.log(res)
+  if (res) {
+    storyText.value = res.output?.text
   }
 }
 
-const addGroup = () => {
+const addGroup = async () => {
   count.value = count.value + 4
-  init()
+  await init()
   getTonyi()
 }
-onMounted(() => {
+onMounted(async () => {
+  await init()
   getTonyi()
-  init()
 })
 </script>
 <style scoped>
+::v-deep .ep-textarea__inner {
+  font-size: 16px;
+}
 .below-text {
   width: 600px;
   margin-top: 40px;
