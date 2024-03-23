@@ -27,7 +27,12 @@ watch(
     <el-menu-item index="/random" @click="pushUrl('/random')"
       >随机选图</el-menu-item
     >
-    <el-menu-item index="/makeStory"  @click="pushUrl('/makeStory')">看图说话</el-menu-item>
+    <el-menu-item index="/makeStory" @click="pushUrl('/makeStory')"
+      >看图说话</el-menu-item
+    >
+    <el-menu-item index="/comparisonTable" @click="pushUrl('/comparisonTable')"
+      >对照表</el-menu-item
+    >
     <el-menu-item h="full" @click="toggleDark()">
       <button
         class="border-none w-full bg-transparent cursor-pointer"

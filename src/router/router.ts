@@ -14,6 +14,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/makeStory',
     name: 'makeStory',
     component: () => import('../views/makeStory.vue')
+  },
+  {
+    path: '/comparisonTable',
+    name: 'comparisonTable',
+    component: () => import('../views/comparisonTable.vue')
   }
 ]
 const baseUrl = import.meta.env.BASE_URL
