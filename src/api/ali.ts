@@ -14,7 +14,6 @@ async function postData(url = '', data = {}) {
       // referrerPolicy: 'no-referrer', // 引用策略：no-referrer、no-referrer-when-downgrade、origin、origin-when-cross-origin、same-origin、strict-origin、strict-origin-when-cross-origin、unsafe-url
       body: JSON.stringify(data) // 请求体数据，必须与 Content-Type 头中指定的类型匹配
     })
-    debugger
     return response.json() // 将响应解析为 JSON 对象
   } catch (error) {
     console.error('Error fetching data:', error)

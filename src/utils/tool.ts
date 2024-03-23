@@ -30,9 +30,9 @@ export function randomNumberString(): string {
  */
 export function uniqueNumberGenerator(): () => string {
   // 生成0-99的数组步长为1, 1位数前面补0
-  const randomNumbers = Array.from({ length: 100 }, (_, i) => {
-    return i < 10 ? '0' + i : i
-  })
+  const randomNumbers = Array.from({ length: 100 }, (_, i) =>
+    i < 10 ? '0' + i : String(i)
+  )
   const generatedNumbers = shuffleArray(randomNumbers)
   return function generate() {
     // 每次调用取最后一个元素,generatedNumbers去掉一个
@@ -52,6 +52,8 @@ export const createImageAsset = (name: string): ImageAsset => ({
  * @description: 根据数字生成随机count个数的图片组, 要求不重复,且不能有多个自己
  */
 export function getImages(value: string, count = 4): ImageAsset[] {
+  console.log(value)
+
   const uniqueNumbers = new Set<string>()
   uniqueNumbers.add(value)
   while (uniqueNumbers.size < count) {
@@ -60,6 +62,7 @@ export function getImages(value: string, count = 4): ImageAsset[] {
       uniqueNumbers.add(name)
     }
   }
+  console.log(uniqueNumbers)
   let temp = Array.from(uniqueNumbers).map(createImageAsset)
   temp = shuffleArray(temp)
   return temp
