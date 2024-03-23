@@ -111,3 +111,17 @@ export function cacheImage(
       .catch(err => console.error('Error preloading image:', err)) // 添加错误处理
   }
 }
+
+const imageCache = new Map<string, HTMLImageElement>()
+
+/**
+ * @description: 加载图片
+ */
+export const getCacheImage = async (value: string, count?: number) => {
+  let temp = getImages(value, count)
+  for (let index = 0; index < temp.length; index++) {
+    const item = temp[index]
+    await cacheImage(item, imageCache)
+  }
+  return temp
+}

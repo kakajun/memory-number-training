@@ -43,13 +43,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { uniqueNumberGenerator } from '../utils/tool'
+import { uniqueNumberGenerator, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
-import {
-  useElapsedTimeFormatter,
-  getCacheImage
-} from '../utils/useElapsedTimeFormatter'
+import useTimer from '../components/useTimer'
 import rightDialog from '../components/RightDialog.vue'
+const { startTime, formattedElapsedTime, startTimer, stopTimer } = useTimer(0)
 // 创建一个生成器实例
 const generator = uniqueNumberGenerator()
 const nextNumber = ref('')
@@ -57,18 +55,9 @@ const dialogVisible = ref(false)
 const currentNumber = ref('00')
 const correctCount = ref(0)
 const wrongCount = ref(0)
-const startTime = ref(new Date().toLocaleTimeString())
-const elapsedTime = ref(0)
-let timer = setInterval(() => {
-  elapsedTime.value++
-}, 1000)
-onBeforeUnmount(() => {
-  // 消除定时器
-  clearInterval(timer)
-})
+
 const displayedImages = ref<ImageAsset[]>([])
 
-const formattedElapsedTime = useElapsedTimeFormatter(elapsedTime)
 let cacheTemp: { name: string; url: string }[] = []
 
 /**
@@ -83,11 +72,7 @@ const handleClose = () => {
   currentNumber.value = '00'
   correctCount.value = 0
   wrongCount.value = 0
-  startTime.value = new Date().toLocaleTimeString()
-  elapsedTime.value = 0
-  timer = setInterval(() => {
-    elapsedTime.value++
-  }, 1000)
+  startTimer()
   init()
 }
 
@@ -112,7 +97,7 @@ const checkAnswer = async (name: string) => {
     wrongCount.value++
   }
   if (wrongCount.value + correctCount.value === 100) {
-    clearInterval(timer) // 停止计时
+    stopTimer()
     dialogVisible.value = true
     return
   }
