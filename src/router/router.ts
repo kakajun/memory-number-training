@@ -6,6 +6,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/gussNumber.vue')
   },
   {
+    path: '/reverseOrder',
+    name: 'reverseOrder',
+    component: () => import('../views/reverseOrder.vue')
+  },
+
+  {
     path: '/random',
     name: 'random',
     component: () => import('../views/randomNumber.vue')

@@ -74,6 +74,12 @@ export function addNumber(value: string) {
   return num >= 9 ? String(num + 1) : '0' + String(num + 1)
 }
 
+// 设置方法给currentNumber每次加1,如果是个位数前面补0
+export function minusNumber(value: string) {
+  const num = Number(value)
+  return num >= 9 ? String(num - 1) : '0' + String(num - 1)
+}
+
 /**
  * @description: 根据url缓存图片
  */
