@@ -47,7 +47,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { minusNumber, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
 import useTimer from '../components/useTimer'
-import rightDialog from '../components/RightDialog.vue'
+
 const { startTime, formattedElapsedTime, startTimer, stopTimer } = useTimer(0)
 
 const dialogVisible = ref(false)
@@ -92,6 +92,7 @@ const checkAnswer = async (name: string) => {
     dialogVisible.value = true
     return
   }
+
   updateDisplayedImages()
   // 更新当前数字
   currentNumber.value = nextNumber

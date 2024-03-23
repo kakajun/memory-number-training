@@ -47,7 +47,6 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { addNumber, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
 import useTimer from '../components/useTimer'
-import rightDialog from '../components/RightDialog.vue'
 const { startTime, formattedElapsedTime, startTimer, stopTimer } = useTimer(0)
 
 const dialogVisible = ref(false)

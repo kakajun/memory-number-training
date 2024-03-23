@@ -46,7 +46,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { uniqueNumberGenerator, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
 import useTimer from '../components/useTimer'
-import rightDialog from '../components/RightDialog.vue'
+
 const { startTime, formattedElapsedTime, startTimer, stopTimer } = useTimer(0)
 // 创建一个生成器实例
 const generator = uniqueNumberGenerator()
