@@ -265,7 +265,7 @@ export default [
   },
   {
     id: '66',
-    name: '筛子'
+    name: '色子'
   },
   {
     id: '67',

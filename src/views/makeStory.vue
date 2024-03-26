@@ -107,12 +107,13 @@ const getTonyi = async () => {
         {
           role: 'user',
           content:
-            '清除上下文，按顺序记住这几个词和它出现的顺序，请帮我编一个故事按词语的顺序串联：' +
-            names.join('-') +
-            '要求:1.场景可以是不符合实际的，只要方便我记住图片的顺序。2.注意词的顺序按前面提供的出现。3.简短方便记忆。4.关键词只出现一次。'
+            '请用"' +
+            names.join('","') +
+            `",串联一段容易记住的场景, 要求:1. 词依次出现,2.字数控制在${7 * count.value}以内.`
         }
       ]
     },
+    group: 1,
     parameters: {}
   }
   const res = await postAnswer(params)
