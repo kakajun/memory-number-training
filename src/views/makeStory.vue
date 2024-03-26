@@ -37,12 +37,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { addNumber } from '../utils/tool'
+import { addNumber, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
-import {
-  useElapsedTimeFormatter,
-  getCacheImage
-} from '../utils/useElapsedTimeFormatter'
+
 import numImg from '../utils/numImg'
 import { postAnswer } from '../api/ali'
 const count = ref(4)

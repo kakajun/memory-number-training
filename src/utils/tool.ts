@@ -33,10 +33,15 @@ export function uniqueNumberGenerator(): () => string {
   const randomNumbers = Array.from({ length: 100 }, (_, i) =>
     i < 10 ? '0' + i : String(i)
   )
-  const generatedNumbers = shuffleArray(randomNumbers)
+  let generatedNumbers = shuffleArray(randomNumbers)
+  let currentIndex = 0
   return function generate() {
     // 每次调用取最后一个元素,generatedNumbers去掉一个
-    const newNumber = generatedNumbers.pop()
+    const newNumber = generatedNumbers[currentIndex++]
+    if (currentIndex >= generatedNumbers.length) {
+      currentIndex = 0
+      generatedNumbers = shuffleArray(randomNumbers)
+    }
     return newNumber
   }
 }
@@ -99,15 +104,28 @@ export type ImageAsset = {
 /**
  * @description: 根据url获取图片, 有就拿缓存图片,没有就预先加载
  */
-export function cacheImage(
+export async function cacheImage(
   image: ImageAsset,
   imageCache: Map<string, HTMLImageElement>
 ) {
   if (!imageCache.has(image.url)) {
-    preloadImage(image.url)
-      .then(cachedImage => {
-        imageCache.set(image.url, cachedImage)
-      })
-      .catch(err => console.error('Error preloading image:', err)) // 添加错误处理
+    try {
+      const cachedImage = await preloadImage(image.url)
+      imageCache.set(image.url, cachedImage)
+    } catch (err) {
+      console.error('Error preloading image:', err)
+    }
   }
+}
+
+const imageCache = new Map<string, HTMLImageElement>()
+
+/**
+ * @description: 加载图片
+ */
+export const getCacheImage = async (value: string, count?: number) => {
+  let temp = getImages(value, count)
+  const promises = temp.map(item => cacheImage(item, imageCache))
+  await Promise.all(promises)
+  return temp
 }

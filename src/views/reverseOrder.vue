@@ -1,3 +1,4 @@
+/* 倒序选图*/
 <template>
   <div class="memory-game">
     <!-- 数字显示与统计 -->
@@ -43,31 +44,19 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { minusNumber } from '../utils/tool'
+import { minusNumber, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
-import {
-  useElapsedTimeFormatter,
-  getCacheImage
-} from '../utils/useElapsedTimeFormatter'
-import rightDialog from '../components/RightDialog.vue'
+import useTimer from '../components/useTimer'
+
+const { startTime, formattedElapsedTime, startTimer, stopTimer } = useTimer(0)
+
 const dialogVisible = ref(false)
 const currentNumber = ref('99')
 const correctCount = ref(0)
 const wrongCount = ref(0)
-const startTime = ref(new Date().toLocaleTimeString())
-const elapsedTime = ref(0)
-let timer = setInterval(() => {
-  elapsedTime.value++
-}, 1000)
-
-onBeforeUnmount(() => {
-  // 消除定时器
-  clearInterval(timer)
-})
 
 const displayedImages = ref<ImageAsset[]>([])
 
-const formattedElapsedTime = useElapsedTimeFormatter(elapsedTime)
 let cacheTemp: ImageAsset[] = []
 
 /**
@@ -82,11 +71,7 @@ const handleClose = () => {
   currentNumber.value = '99'
   correctCount.value = 0
   wrongCount.value = 0
-  startTime.value = new Date().toLocaleTimeString()
-  elapsedTime.value = 0
-  timer = setInterval(() => {
-    elapsedTime.value++
-  }, 1000)
+  startTimer()
   init()
 }
 
@@ -103,10 +88,11 @@ const checkAnswer = async (name: string) => {
   let nextNumber = minusNumber(currentNumber.value)
   const num = Number(nextNumber)
   if (num === 0) {
-    clearInterval(timer) // 停止计时
+    stopTimer()
     dialogVisible.value = true
     return
   }
+
   updateDisplayedImages()
   // 更新当前数字
   currentNumber.value = nextNumber
