@@ -82,7 +82,7 @@ export function addNumber(value: string) {
 // 设置方法给currentNumber每次加1,如果是个位数前面补0
 export function minusNumber(value: string) {
   const num = Number(value)
-  return num > 9 ? String(num - 1) : '0' + String(num - 1)
+  return num > 10 ? String(num - 1) : '0' + String(num - 1)
 }
 
 /**
