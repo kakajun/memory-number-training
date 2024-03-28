@@ -2,6 +2,7 @@
   <div class="memory-game">
     <!-- 图片展示区域 -->
     <div class="bottom-section">
+      <el-button @click="show = !show">显示图片</el-button>
       <div class="image-grid">
         <div
           v-for="image in displayedImages"
@@ -9,7 +10,9 @@
           class="image-cell"
         >
           <div class="number-display">{{ image.name }}</div>
+
           <img
+            v-if="image.show"
             :src="image.url"
             :alt="image.name"
             @click="checkAnswer(image.name)"
@@ -46,7 +49,7 @@ const count = ref(4)
 const storyText = ref('思考中.......')
 const dialogVisible = ref(false)
 const currentNumber = ref('00')
-
+const show = ref(false)
 const displayedImages = ref<ImageAsset[]>([])
 
 let cacheTemp: ImageAsset[] = []
