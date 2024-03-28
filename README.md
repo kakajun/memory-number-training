@@ -21,6 +21,9 @@
 - TypeScript
 - gh-pages - 用于发布到GitHub Pages
 
+## 💡 预览图
+![](https://github.com/kakajun/memory-number-training/blob/main/src/img/demo.png)
+
 ## 安装
 
 要在本地设置此项目，请按照以下步骤操作：
