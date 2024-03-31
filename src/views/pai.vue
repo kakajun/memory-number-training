@@ -1,9 +1,9 @@
 <template>
   <div class="memory-game">
     <div class="top-btn">
-      <el-button @click="show = !show">显示数字</el-button>
+      <el-button @click="show = !show">显示数字图片</el-button>
     </div>
-    <div class="top-text">
+    <div class="top-text" v-if="show">
       <div class="top-text-tittle" style="padding-bottom: 10px">
         3.141592 6 53 58 97 93 23 84 62 64 33 83 27 95 02 88 41 97 16 93 99 37
         51 05
@@ -46,6 +46,7 @@ onMounted(async () => {})
 }
 .below-text {
   width: 80%;
+  max-width: 1200px;
   margin-top: 40px;
 }
 .tittle-text {
@@ -73,9 +74,12 @@ onMounted(async () => {})
 }
 .top-text {
   width: 100%;
+  text-align: center;
   font-size: 30px;
   .top-text-img {
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     img {
       width: 100%;
     }
