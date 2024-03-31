@@ -1,8 +1,10 @@
 <template>
   <div class="memory-game">
+    <div class="top-btn">
+      <el-button @click="show = !show">显示图片</el-button>
+    </div>
     <!-- 图片展示区域 -->
     <div class="bottom-section">
-      <el-button @click="show = !show">显示图片</el-button>
       <div class="image-grid">
         <div
           v-for="image in displayedImages"
@@ -12,7 +14,7 @@
           <div class="number-display">{{ image.name }}</div>
 
           <img
-            v-if="image.show"
+            v-if="show"
             :src="image.url"
             :alt="image.name"
             @click="checkAnswer(image.name)"
@@ -136,6 +138,9 @@ onMounted(async () => {
 })
 </script>
 <style scoped>
+.top-btn{
+ margin-bottom: 10px;
+}
 ::v-deep .ep-textarea__inner {
   font-size: 16px;
 }
