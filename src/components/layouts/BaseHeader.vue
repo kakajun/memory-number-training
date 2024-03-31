@@ -15,7 +15,7 @@ const pushUrl = (url: string) => {
 watch(
   () => route.path,
   newId => {
-    console.log('路由变化了', newId)
+    // console.log('路由变化了', newId)
     activeIndex.value = newId
   }
 )
@@ -24,7 +24,9 @@ watch(
 <template>
   <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
     <el-menu-item index="/" @click="pushUrl('/')">按序选图</el-menu-item>
-     <el-menu-item index="/reverseOrder" @click="pushUrl('/reverseOrder')">倒序选图</el-menu-item>
+    <el-menu-item index="/reverseOrder" @click="pushUrl('/reverseOrder')"
+      >倒序选图</el-menu-item
+    >
     <el-menu-item index="/random" @click="pushUrl('/random')"
       >随机选图</el-menu-item
     >
