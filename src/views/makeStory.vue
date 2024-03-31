@@ -110,9 +110,7 @@ const getTonyi = async () => {
         {
           role: 'user',
           content:
-            '请用"' +
-            names.join('","') +
-            `",使用连锁记忆法编一段话, 要求:1. 前面词按顺序出现,2.字数控制在${7 * count.value}以内.`
+            '怎么用连锁记忆法，简短的按顺序串联记忆: "' + names.join('","')
         }
       ]
     },

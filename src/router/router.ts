@@ -22,6 +22,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/makeStory.vue')
   },
   {
+    path: '/pai',
+    name: 'pai',
+    component: () => import('../views/pai.vue')
+  },
+  {
     path: '/comparisonTable',
     name: 'comparisonTable',
     component: () => import('../views/comparisonTable.vue')
