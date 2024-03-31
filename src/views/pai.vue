@@ -13,7 +13,12 @@
 
     <div class="below-text">
       <div class="tittle-text">检验:</div>
-      <el-input v-model="checkText" type="textarea" autosize></el-input>
+      <el-input
+        class="tittle-text"
+        v-model="checkText"
+        type="textarea"
+        autosize
+      ></el-input>
     </div>
     <div class="btn-group">
       <el-button type="primary" @click="submit">提交</el-button>
@@ -29,7 +34,9 @@ const checkText = ref('')
 const show = ref(false)
 
 const submit = () => {
-  if (checkText.value === pi) {
+  // 去掉数值里面的所有空格
+  const num = checkText.value.replace(/\s/g, '')
+  if (num === pi) {
     alert('正确')
   } else {
     alert('错误')
@@ -41,9 +48,6 @@ onMounted(async () => {})
 .top-btn {
   margin-bottom: 10px;
 }
-::v-deep .ep-textarea__inner {
-  font-size: 16px;
-}
 .below-text {
   width: 80%;
   max-width: 1200px;
@@ -51,7 +55,7 @@ onMounted(async () => {})
 }
 .tittle-text {
   text-align: left;
-  font-size: 18px;
+  font-size: 30px;
   padding-bottom: 10px;
 }
 
@@ -75,7 +79,7 @@ onMounted(async () => {})
 .top-text {
   width: 100%;
   text-align: center;
-  font-size: 30px;
+  font-size: 32px;
   .top-text-img {
     width: 100%;
     max-width: 1200px;
