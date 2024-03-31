@@ -2,6 +2,7 @@
   <div class="memory-game">
     <div class="top-btn">
       <el-button @click="show = !show">显示图片</el-button>
+      <el-button @click="checkAnswer()">换一组</el-button>
     </div>
     <!-- 图片展示区域 -->
     <div class="bottom-section">
@@ -17,7 +18,7 @@
             v-if="show"
             :src="image.url"
             :alt="image.name"
-            @click="checkAnswer(image.name)"
+            @click="checkAnswer()"
           />
         </div>
       </div>
@@ -67,10 +68,9 @@ const updateDisplayedImages = () => {
  * @description: 图片点击事件
  * @param {*} name
  */
-const checkAnswer = async (name: string) => {
+const checkAnswer = async () => {
   let nextNumber = addNumber(currentNumber.value)
   const num = Number(nextNumber)
-
   updateDisplayedImages()
   getTonyi()
   // 更新当前数字
@@ -138,8 +138,8 @@ onMounted(async () => {
 })
 </script>
 <style scoped>
-.top-btn{
- margin-bottom: 10px;
+.top-btn {
+  margin-bottom: 10px;
 }
 ::v-deep .ep-textarea__inner {
   font-size: 16px;
