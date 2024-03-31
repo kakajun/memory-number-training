@@ -34,9 +34,7 @@
       ></el-input>
     </div>
     <div class="btn-group">
-      <el-button type="primary" size="middle" @click="addGroup"
-        >加一组</el-button
-      >
+      <el-button type="primary" @click="addGroup">加一组</el-button>
     </div>
   </div>
 </template>

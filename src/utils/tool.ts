@@ -66,7 +66,7 @@ export function getImages(value: string, count = 4): ImageAsset[] {
       uniqueNumbers.add(name)
     }
   }
-  console.log(uniqueNumbers)
+  // console.log(uniqueNumbers)
   let temp = Array.from(uniqueNumbers).map(createImageAsset)
   temp = shuffleArray(temp)
   return temp
