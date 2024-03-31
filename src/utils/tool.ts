@@ -57,8 +57,7 @@ export const createImageAsset = (name: string): ImageAsset => ({
  * @description: 根据数字生成随机count个数的图片组, 要求不重复,且不能有多个自己
  */
 export function getImages(value: string, count = 4): ImageAsset[] {
-  console.log(value)
-
+  // console.log(value)
   const uniqueNumbers = new Set<string>()
   uniqueNumbers.add(value)
   while (uniqueNumbers.size < count) {
