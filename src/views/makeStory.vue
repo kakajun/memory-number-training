@@ -1,11 +1,15 @@
 <template>
   <div class="memory-game">
+    <div class="top-setime">
+      <div class="tittle-time">消失时间:</div>
+      <el-input-number v-model="count" :min="1" :max="10" />
+    </div>
     <div class="top-btn">
       <el-button @click="show = !show">显示图片</el-button>
       <el-button @click="checkAnswer()">换一组</el-button>
     </div>
     <!-- 图片展示区域 -->
-    <div class="bottom-section">
+    <div v-if="numShow" class="bottom-section">
       <div class="image-grid">
         <div
           v-for="image in displayedImages"
@@ -24,7 +28,7 @@
       </div>
     </div>
 
-    <div class="below-text">
+    <div v-if="show" class="below-text">
       <div class="tittle-text">记忆攻略:</div>
       <el-input
         v-model="storyText"
@@ -33,8 +37,20 @@
         autosize
       ></el-input>
     </div>
+
+    <div class="below-text">
+      <div class="tittle-text">检验:</div>
+      <el-input
+        ref="myInput"
+        class="tittle-text"
+        v-model="checkText"
+        type="textarea"
+        autosize
+      ></el-input>
+    </div>
     <div class="btn-group">
       <el-button type="primary" @click="addGroup">加一组</el-button>
+      <el-button type="primary" @click="submit">提交</el-button>
     </div>
   </div>
 </template>
@@ -43,18 +59,30 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { addNumber, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
-
+import { ElMessage } from 'element-plus'
 import numImg from '../utils/numImg'
 import { postAnswer } from '../api/ali'
 const count = ref(4)
 const storyText = ref('思考中.......')
-const dialogVisible = ref(false)
+
 const currentNumber = ref('00')
 const show = ref(false)
+const numShow = ref(true)
 const displayedImages = ref<ImageAsset[]>([])
-
+const checkText = ref('')
+const myInput = ref(null)
 let cacheTemp: ImageAsset[] = []
-
+let timer: any
+const delayTime = ref(4)
+const setHidden = () => {
+  timer = setTimeout(() => {
+    show.value = false
+    numShow.value = false
+  }, delayTime.value * 1000)
+}
+onBeforeUnmount(() => {
+  clearTimeout(timer)
+})
 /**
  * @description: 由于外网速度慢,如果点击时再去加载图片,那么会导致卡顿,所以先预加载图片,这里拿的是上次已经缓存好的图片
  */
@@ -67,6 +95,7 @@ const updateDisplayedImages = () => {
  * @param {*} name
  */
 const checkAnswer = async () => {
+  numShow.value = true
   let nextNumber = addNumber(currentNumber.value)
   const num = Number(nextNumber)
   updateDisplayedImages()
@@ -78,12 +107,14 @@ const checkAnswer = async () => {
   }
   // 更新缓存图片
   cacheTemp = await getCacheImage(addNumber(currentNumber.value), count.value)
+  setHidden()
 }
 
 /**
  * @description: 初始化图片
  */
 const init = async () => {
+  setHidden()
   cacheTemp = await getCacheImage(currentNumber.value, count.value)
   updateDisplayedImages()
   let nextNumber = addNumber(currentNumber.value)
@@ -128,12 +159,34 @@ const addGroup = async () => {
   await init()
   getTonyi()
 }
+
+const submit = () => {
+  // 去掉数值里面的所有空格
+  const num = checkText.value.replace(/\s/g, '')
+  const answer = displayedImages.value.map(o => o.name).join('')
+  if (num === answer) {
+    ElMessage.success('正确!')
+    checkAnswer()
+  } else {
+    ElMessage.error('错误!')
+  }
+}
 onMounted(async () => {
+  // 确保 DOM 更新后执行此操作
+  myInput.value?.focus()
   await init()
   getTonyi()
 })
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.top-setime {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  .tittle-time {
+    margin-right: 10px;
+  }
+}
 .top-btn {
   margin-bottom: 10px;
 }
@@ -141,7 +194,8 @@ onMounted(async () => {
   font-size: 16px;
 }
 .below-text {
-  width: 600px;
+  width: 80%;
+  max-width: 600px;
   margin-top: 40px;
 }
 .tittle-text {
@@ -199,6 +253,11 @@ onMounted(async () => {
   transition: border-color 0.3s ease;
 }
 
+.tittle-text {
+  text-align: left;
+  font-size: 30px;
+  padding-bottom: 10px;
+}
 .image-cell img:hover {
   border-color: #007bff;
 }

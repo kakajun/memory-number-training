@@ -14,6 +14,7 @@
     <div class="below-text">
       <div class="tittle-text">检验:</div>
       <el-input
+        ref="myInput"
         class="tittle-text"
         v-model="checkText"
         type="textarea"
@@ -28,21 +29,25 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ElMessage } from 'element-plus'
 const pi = '3.141592653589793238462643383279502884197169399375105'
 const checkText = ref('')
-
+const myInput = ref(null)
 const show = ref(false)
 
 const submit = () => {
   // 去掉数值里面的所有空格
   const num = checkText.value.replace(/\s/g, '')
   if (num === pi) {
-    alert('正确')
+    ElMessage.success('正确!')
   } else {
-    alert('错误')
+    ElMessage.error('错误!')
   }
 }
-onMounted(async () => {})
+onMounted(() => {
+  // 确保 DOM 更新后执行此操作
+  myInput.value?.focus()
+})
 </script>
 <style lang="scss" scoped>
 .top-btn {
