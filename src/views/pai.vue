@@ -17,8 +17,7 @@
         ref="myInput"
         class="tittle-text"
         v-model="checkText"
-        type="textarea"
-        autosize
+        @keyup="handleKeyUp"
       ></el-input>
     </div>
     <div class="btn-group">
@@ -28,11 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 const pi = '3.141592653589793238462643383279502884197169399375105'
 const checkText = ref('')
-const myInput = ref(null)
+const myInput = ref<HTMLInputElement | null>(null)
 const show = ref(false)
 
 const submit = () => {
@@ -44,9 +43,19 @@ const submit = () => {
     ElMessage.error('错误!')
   }
 }
-onMounted(() => {
-  // 确保 DOM 更新后执行此操作
+
+const handleKeyUp = (e: KeyboardEvent) => {
+  if (e.code === 'Enter') {
+    submit()
+    return
+  }
+}
+
+const setFocus = () => {
   myInput.value?.focus()
+}
+onMounted(() => {
+  setFocus()
 })
 </script>
 <style lang="scss" scoped>
