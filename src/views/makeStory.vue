@@ -225,11 +225,6 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 
-.stats p {
-  font-size: 20px;
-  margin: 5px 0;
-}
-
 .bottom-section {
   display: flex;
   justify-content: center;
