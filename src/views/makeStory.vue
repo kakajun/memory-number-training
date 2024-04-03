@@ -8,6 +8,19 @@
     <div class="top-btn">
       <el-button @click="toggleShow">显示图片</el-button>
       <el-button @click="generateNewSet">换一组</el-button>
+      <el-button @click="addSet">加一组</el-button>
+      <el-button @click="submitAnswer">提交</el-button>
+    </div>
+
+    <!-- 检验区域 -->
+    <div class="below-text">
+      <span class="tittle-text">检验:</span>
+      <el-input
+        ref="myInput"
+        class="check-input"
+        v-model="state.checkText"
+        @keyup.enter="submitAnswer"
+      ></el-input>
     </div>
 
     <!-- 图片展示区域 -->
@@ -40,23 +53,6 @@
         type="textarea"
         autosize
       ></el-input>
-    </div>
-
-    <!-- 检验区域 -->
-    <div class="below-text">
-      <div class="tittle-text">检验:</div>
-      <el-input
-        v-model="state.checkText"
-        @keyup.enter="submitAnswer"
-        type="textarea"
-        autosize
-      ></el-input>
-    </div>
-
-    <!-- 按钮组 -->
-    <div class="btn-group">
-      <el-button type="primary" @click="addSet">加一组</el-button>
-      <el-button type="primary" @click="submitAnswer">提交</el-button>
     </div>
   </div>
 </template>
@@ -103,10 +99,7 @@ const generateNewSet = async () => {
   if (Number(nextNumber) > 99) {
     state.currentNumber = '00'
   }
-  state.cacheTemp = await getCacheImage(nextNumber, count.value)
-  // 清空输入框
-  state.checkText = ''
-  setHidden()
+  init()
 }
 
 const updateDisplayedImages = () => {
@@ -116,6 +109,8 @@ const updateDisplayedImages = () => {
 const init = async () => {
   state.cacheTemp = await getCacheImage(state.currentNumber, count.value)
   updateDisplayedImages()
+  // 清空输入框
+  state.checkText = ''
   setHidden()
   setFocus()
   getTonyi()
@@ -166,11 +161,16 @@ const submitAnswer = () => {
     generateNewSet()
   } else {
     ElMessage.error('错误!')
+    // 清空输入框
+    state.checkText = ''
   }
 }
 
 const setFocus = () => {
-  myInput.value?.focus()
+  setTimeout(() => {
+    myInput.value?.focus()
+    console.log('获取焦点!!')
+  }, 100)
 }
 
 onMounted(() => {
@@ -182,7 +182,7 @@ onMounted(() => {
 .top-setime {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   .tittle-time {
     margin-right: 10px;
   }
@@ -196,15 +196,15 @@ onMounted(() => {
 .below-text {
   width: 80%;
   max-width: 600px;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 .tittle-text {
   text-align: left;
   font-size: 18px;
   padding-bottom: 10px;
 }
-.btn-group {
-  margin-top: 40px;
+.check-input {
+  padding: 20px 0;
 }
 .memory-game {
   display: flex;
