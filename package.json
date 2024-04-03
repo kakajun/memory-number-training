@@ -18,7 +18,9 @@
     "build": "vite build",
     "generate": "vite-ssg build",
     "preview": "vite preview",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "element-plus": "^2.3.12",
@@ -28,13 +30,16 @@
     "@iconify-json/ep": "^1.1.12",
     "@types/node": "^20.6.0",
     "@vitejs/plugin-vue": "^4.3.4",
+    "prettier": "3.2.5",
     "sass": "^1.66.1",
     "typescript": "^5.2.2",
     "unocss": "^0.55.7",
-    "prettier":"3.2.5",
     "unplugin-vue-components": "^0.25.2",
     "vite": "^4.4.9",
     "vite-ssg": "^0.23.1",
+    "@vue/test-utils":"2.4.5",
+    "jsdom": "24.0.0",
+    "vitest": "^1.4.0",
     "vue-router": "^4.3.0",
     "vue-tsc": "^1.8.11"
   }
