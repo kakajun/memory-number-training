@@ -4,11 +4,11 @@
       <el-button @click="show = !show">显示数字图片</el-button>
     </div>
     <div class="top-text" v-if="show">
+      <div class="top-text-img"><img src="../img/pi.png" alt="" /></div>
       <div class="top-text-tittle" style="padding-bottom: 10px">
         3.141592 6 53 58 97 93 23 84 62 64 33 83 27 95 02 88 41 97 16 93 99 37
         51 05
       </div>
-      <div class="top-text-img"><img src="../img/pi.png" alt="" /></div>
     </div>
 
     <div class="below-text">
@@ -69,7 +69,7 @@ onMounted(() => {
 }
 .tittle-text {
   text-align: left;
-  font-size: 30px;
+  font-size: 32px;
   padding-bottom: 10px;
 }
 
