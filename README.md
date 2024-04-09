@@ -23,6 +23,7 @@
 
 ## 💡 预览图
 ![](https://github.com/kakajun/memory-number-training/blob/main/src/img/demo.png)
+![](https://github.com/kakajun/memory-number-training/blob/main/src/img/demo2.png)
 
 ## 安装
 

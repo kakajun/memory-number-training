@@ -11,6 +11,10 @@ const pushUrl = (url: string) => {
   router.push(url)
 }
 
+const jump = () => {
+  window.open('https://github.com/kakajun/memory-number-training')
+}
+
 // 当参数更改时获取用户信息
 watch(
   () => route.path,
@@ -36,9 +40,8 @@ watch(
     <el-menu-item index="/comparisonTable" @click="pushUrl('/comparisonTable')"
       >对照表</el-menu-item
     >
-     <el-menu-item index="/pai" @click="pushUrl('/pai')"
-      >圆周率</el-menu-item
-    >
+    <el-menu-item index="/pai" @click="pushUrl('/pai')">圆周率</el-menu-item>
+    <el-menu-item index="/pai" @click="jump">git地址</el-menu-item>
     <el-menu-item h="full" @click="toggleDark()">
       <button
         class="border-none w-full bg-transparent cursor-pointer"
