@@ -1,5 +1,8 @@
 # 数字记忆训练
 
+
+[![](https://camo.githubusercontent.com/28479a7a834310a667f36760a27283f7389e864a/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f6c2f76322d646174657069636b65722e737667)](https://camo.githubusercontent.com/28479a7a834310a667f36760a27283f7389e864a/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f6c2f76322d646174657069636b65722e737667) [![build status](https://github.com/kakajun/memory-number-training/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/kakajun/memory-number-training/actions/workflows/gh-pages.yml)
+
 由于近期本人阅读了一本书《实战记忆》 由刘俊/著[2015.11], 很想训练一下自己的记忆，于是这个工程应运而生。
 
 数字记忆训练是一个基于Web的应用程序，旨在帮助用户通过一系列有趣且具有挑战性的练习提高他们的数字记忆技能。利用不同的难度级别，用户可以逐步提高他们的记忆力、集中力和心理敏捷性。
