@@ -14,32 +14,28 @@
 
     <!-- 检验区域 -->
     <div class="below-text">
-      <span class="tittle-text">检验:</span>
+      <span class="tittle-text">检验: </span>
+      <span class="tittle-text">{{ state.count }} 组</span>
       <el-input
         ref="myInput"
         class="check-input"
-        v-model="state.checkText"
+        v-model="formattedCheckText"
         @keyup.enter="submitAnswer"
       ></el-input>
     </div>
 
     <!-- 图片展示区域 -->
     <div class="bottom-section">
-      <div class="image-grid">
+      <div v-if="state.numShow || state.show" class="image-grid">
         <div
           v-for="image in state.displayedImages"
           :key="image.name"
           class="image-cell"
         >
-          <div v-if="state.numShow || state.show" class="number-display">
+          <div class="number-display">
             {{ image.name }}
           </div>
-          <img
-            v-if="state.show"
-            :src="image.url"
-            :alt="image.name"
-            @click="generateNewSet"
-          />
+          <img :src="image.url" :alt="image.name" @click="generateNewSet" />
         </div>
       </div>
     </div>
@@ -58,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { reactive } from 'vue'
 import { addNumber, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
@@ -68,6 +64,7 @@ import { postAnswer } from '../api/ali'
 import type { ElInput } from 'element-plus'
 
 const state = reactive({
+  count: 0,
   show: false,
   numShow: true,
   displayedImages: [] as ImageAsset[],
@@ -99,6 +96,7 @@ const generateNewSet = async () => {
   if (Number(nextNumber) > 99) {
     state.currentNumber = '00'
   }
+  state.count++
   init()
 }
 
@@ -173,6 +171,24 @@ const setFocus = () => {
   }, 100)
 }
 
+const formattedCheckText = computed({
+  get() {
+    return formatInputWithSpaces(state.checkText)
+  },
+  set(value) {
+    state.checkText = value.replace(/\s/g, '') // 在设置时移除所有空格，保持原始值无空格
+  }
+})
+
+const formatInputWithSpaces = (input: string) => {
+  if (!input || !/\d/.test(input)) {
+    // 如果输入为空或不包含数字，则直接返回原值
+    return input
+  }
+
+  return input.replace(/\d{2}(?=\d)/g, '$& ') // 在每两位数字后面插入一个空格
+}
+
 onMounted(() => {
   init()
 })
@@ -198,13 +214,13 @@ onMounted(() => {
   max-width: 600px;
   margin-top: 20px;
 }
-.tittle-text {
-  text-align: left;
-  font-size: 18px;
-  padding-bottom: 10px;
-}
+
 .check-input {
+  font-size: 26px;
   padding: 20px 0;
+  ::v-deep .ep-input__wrapper {
+    height: 40px;
+  }
 }
 .memory-game {
   display: flex;
