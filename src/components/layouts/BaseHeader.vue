@@ -41,7 +41,7 @@ watch(
       >对照表</el-menu-item
     >
     <el-menu-item index="/pai" @click="pushUrl('/pai')">圆周率</el-menu-item>
-    <el-menu-item index="/pai" @click="jump">git地址</el-menu-item>
+    <el-menu-item index="/git" @click="jump">git地址</el-menu-item>
     <el-menu-item h="full" @click="toggleDark()">
       <button
         class="border-none w-full bg-transparent cursor-pointer"
