@@ -16,6 +16,6 @@
 }
 
 .main-container {
-  height: calc(100vh - var(--ep-menu-item-height) - 3px);
+  height: calc(100vh - var(--ep-menu-item-height) - 4px);
 }
 </style>
