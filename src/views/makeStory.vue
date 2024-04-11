@@ -3,7 +3,7 @@
     <!-- 顶部设置区域 -->
     <div class="top-setime">
       <div class="tittle-time">消失时间:</div>
-      <el-input-number v-model="count" :min="1" :max="10" />
+      <el-input-number v-model="delayTime" :min="1" :max="10" />
     </div>
     <div class="top-btn">
       <el-button @click="toggleShow">显示图片</el-button>
@@ -14,8 +14,17 @@
 
     <!-- 检验区域 -->
     <div class="below-text">
-      <span class="tittle-text">检验: </span>
-      <span class="tittle-text">{{ state.count }} 组</span>
+      <div class="middle-text">
+        <div>
+          <span class="tittle-text">检验: </span>
+          <span class="tittle-text">{{ state.count }} 组</span>
+        </div>
+
+        <div class="stats">
+          <p>正确: {{ state.correctCount }}</p>
+          <p class="pl10px">错误: {{ state.wrongCount }}</p>
+        </div>
+      </div>
       <el-input
         ref="myInput"
         class="check-input"
@@ -64,6 +73,7 @@ import { postAnswer } from '../api/ali'
 import type { ElInput } from 'element-plus'
 
 const state = reactive({
+  baseTime: 5,
   count: 0,
   show: false,
   numShow: true,
@@ -71,11 +81,14 @@ const state = reactive({
   storyText: '思考中.......',
   currentNumber: '00',
   checkText: '',
-  cacheTemp: [] as ImageAsset[]
+  cacheTemp: [] as ImageAsset[],
+  correctCount: 0,
+  wrongCount: 0
 })
 
 const count = ref(4)
-const delayTime = ref(4)
+
+const delayTime = ref(state.baseTime)
 const myInput = ref<InstanceType<typeof ElInput> | null>(null)
 
 const setHidden = () => {
@@ -146,8 +159,8 @@ const getTonyi = async () => {
 }
 
 const addSet = () => {
-  count.value += 4
-  delayTime.value += 4
+  count.value += state.baseTime
+  delayTime.value += state.baseTime
   init()
 }
 
@@ -156,12 +169,14 @@ const submitAnswer = () => {
   const answer = state.displayedImages.map(o => o.name).join('')
   if (num === answer) {
     ElMessage.success('正确!')
-    generateNewSet()
+    state.correctCount++
   } else {
     ElMessage.error('错误!')
-    // 清空输入框
-    state.checkText = ''
+    state.wrongCount++
   }
+  // 清空输入框
+  state.checkText = ''
+  generateNewSet()
 }
 
 const setFocus = () => {
@@ -271,5 +286,18 @@ onMounted(() => {
 }
 .image-cell img:hover {
   border-color: #007bff;
+}
+
+.stats {
+  display: flex;
+  p {
+    font-size: 20px;
+    margin: 5px 0;
+  }
+}
+
+.middle-text {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
