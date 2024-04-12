@@ -41,7 +41,7 @@
           :key="image.name"
           class="image-cell"
         >
-          <div class="number-display">
+          <div v-if="state.show" class="number-display">
             {{ image.name }}
           </div>
           <img :src="image.url" :alt="image.name" @click="generateNewSet" />
@@ -73,7 +73,7 @@ import { postAnswer } from '../api/ali'
 import type { ElInput } from 'element-plus'
 
 const state = reactive({
-  baseTime: 5,
+  baseTime: 8,
   count: 0,
   show: false,
   numShow: true,
