@@ -71,7 +71,6 @@ import { ElMessage } from 'element-plus'
 import numImg from '../utils/numImg'
 import { postAnswer } from '../api/ali'
 import type { ElInput } from 'element-plus'
-
 const state = reactive({
   baseTime: 8,
   count: 0,
@@ -83,7 +82,8 @@ const state = reactive({
   checkText: '',
   cacheTemp: [] as ImageAsset[],
   correctCount: 0,
-  wrongCount: 0
+  wrongCount: 0,
+  timerID: 0 as any
 })
 
 const count = ref(4)
@@ -93,7 +93,7 @@ const myInput = ref<InstanceType<typeof ElInput> | null>(null)
 
 const setHidden = () => {
   state.numShow = true
-  setTimeout(() => {
+  state.timerID = setTimeout(() => {
     state.show = false
     state.numShow = false
   }, delayTime.value * 1000)
@@ -110,19 +110,24 @@ const generateNewSet = async () => {
     state.currentNumber = '00'
   }
   state.count++
-  init()
+  init('notHidden')
 }
 
 const updateDisplayedImages = () => {
   state.displayedImages = [...state.cacheTemp]
 }
 
-const init = async () => {
+const init = async (flag?: string) => {
   state.cacheTemp = await getCacheImage(state.currentNumber, count.value)
   updateDisplayedImages()
   // 清空输入框
   state.checkText = ''
-  setHidden()
+  // 如果是显示图片情况,不隐藏图片
+  if (!flag) {
+    setHidden()
+  } else {
+    clearTimeout(state.timerID)
+  }
   setFocus()
   getTonyi()
 }
