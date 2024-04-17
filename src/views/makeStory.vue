@@ -3,7 +3,7 @@
     <!-- 顶部设置区域 -->
     <div class="top-setime">
       <div class="tittle-time">消失时间:</div>
-      <el-input-number v-model="delayTime" :min="1" :max="10" />
+      <el-input-number v-model="delayTime" :min="1" />
     </div>
     <div class="top-btn">
       <el-button @click="toggleShow">显示图片</el-button>
@@ -73,6 +73,7 @@ import { postAnswer } from '../api/ali'
 import type { ElInput } from 'element-plus'
 const state = reactive({
   baseTime: 8,
+  addNumber: 4, //每次加多的数
   count: 0,
   show: false,
   numShow: true,
@@ -164,7 +165,7 @@ const getTonyi = async () => {
 }
 
 const addSet = () => {
-  count.value += state.baseTime
+  count.value += state.addNumber
   delayTime.value += state.baseTime
   init()
 }
