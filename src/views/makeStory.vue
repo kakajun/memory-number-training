@@ -71,10 +71,12 @@ import { ElMessage } from 'element-plus'
 import numImg from '../utils/numImg'
 import { postAnswer } from '../api/ali'
 import type { ElInput } from 'element-plus'
+
+const BASE_TIME = 8 // 一组记忆时间
+const ADD_NUMBER = 4 //每次加多的数
+
 const state = reactive({
-  baseTime: 8,
-  addNumber: 4, //每次加多的数
-  count: 0,
+  count: 0, // 检验几组
   show: false,
   numShow: true,
   displayedImages: [] as ImageAsset[],
@@ -87,9 +89,9 @@ const state = reactive({
   timerID: 0 as any
 })
 
-const count = ref(4)
+const count = ref(4) // 初始几个图片
 
-const delayTime = ref(state.baseTime)
+const delayTime = ref(BASE_TIME)
 const myInput = ref<InstanceType<typeof ElInput> | null>(null)
 
 const setHidden = () => {
@@ -165,8 +167,8 @@ const getTonyi = async () => {
 }
 
 const addSet = () => {
-  count.value += state.addNumber
-  delayTime.value += state.baseTime
+  count.value += ADD_NUMBER // 加一组
+  delayTime.value += BASE_TIME
   init()
 }
 
