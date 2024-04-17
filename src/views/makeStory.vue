@@ -72,7 +72,7 @@ import numImg from '../utils/numImg'
 import { postAnswer } from '../api/ali'
 import type { ElInput } from 'element-plus'
 
-const BASE_TIME = 8 // 一组记忆时间
+const BASE_TIME = 10 // 一组记忆时间
 const ADD_NUMBER = 4 //每次加多的数
 
 const state = reactive({
