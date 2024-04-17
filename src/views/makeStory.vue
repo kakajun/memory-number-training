@@ -111,20 +111,20 @@ const generateNewSet = async () => {
     state.currentNumber = '00'
   }
   state.count++
-  init('notHidden')
+  init()
 }
 
 const updateDisplayedImages = () => {
   state.displayedImages = [...state.cacheTemp]
 }
 
-const init = async (flag?: string) => {
+const init = async () => {
   state.cacheTemp = await getCacheImage(state.currentNumber, count.value)
   updateDisplayedImages()
   // 清空输入框
   state.checkText = ''
   // 如果是显示图片情况,不隐藏图片
-  if (!flag) {
+  if (!state.show) {
     setHidden()
   } else {
     clearTimeout(state.timerID)
