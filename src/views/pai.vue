@@ -17,7 +17,7 @@
         ref="myInput"
         class="tittle-text"
         v-model="checkText"
-        @keyup="handleKeyUp"
+        @keyup.enter="submit"
       ></el-input>
     </div>
     <div class="btn-group">
@@ -41,13 +41,6 @@ const submit = () => {
     ElMessage.success('正确!')
   } else {
     ElMessage.error('错误!')
-  }
-}
-
-const handleKeyUp = (e: KeyboardEvent) => {
-  if (e.code === 'Enter') {
-    submit()
-    return
   }
 }
 
