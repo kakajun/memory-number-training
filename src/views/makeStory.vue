@@ -3,7 +3,7 @@
     <!-- 顶部设置区域 -->
     <div class="top-setime">
       <div class="tittle-time">消失时间:</div>
-      <el-input-number v-model="delayTime" :min="1" />
+      <el-input-number class="mr-6" v-model="delayTime" :min="1" />
       <el-switch
         v-model="state.storyType"
         class="m-2"
@@ -159,8 +159,8 @@ const getTonyi = async () => {
           role: 'user',
           content:
             (state.storyType
-              ? '怎么用连锁法,简短的按顺序串联记忆: "'
-              : '怎么用故事法,简短的按顺序串联记忆: "') +
+              ? '你是记忆大师, 教我用连锁法,简短的按顺序串联记忆: "'
+              : '你是记忆大师, 教我用故事法,简短的按顺序串联记忆: "') +
             names.join('","') +
             '"'
         }
