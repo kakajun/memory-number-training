@@ -4,6 +4,12 @@
     <div class="top-setime">
       <div class="tittle-time">消失时间:</div>
       <el-input-number v-model="delayTime" :min="1" />
+      <el-switch
+        v-model="state.storyType"
+        class="m-2"
+        active-text="连锁法"
+        inactive-text="故事法"
+      />
     </div>
     <div class="top-btn">
       <el-button @click="toggleShow">显示图片</el-button>
@@ -77,6 +83,7 @@ const ADD_NUMBER = 4 //每次加多的数
 
 const state = reactive({
   count: 0, // 检验几组
+  storyType: true,
   show: false,
   numShow: true,
   displayedImages: [] as ImageAsset[],
@@ -151,7 +158,9 @@ const getTonyi = async () => {
         {
           role: 'user',
           content:
-            '怎么用连锁记忆法，简短的按顺序串联记忆: "' +
+            (state.storyType
+              ? '怎么用连锁法,简短的按顺序串联记忆: "'
+              : '怎么用故事法,简短的按顺序串联记忆: "') +
             names.join('","') +
             '"'
         }
