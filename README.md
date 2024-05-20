@@ -17,6 +17,10 @@
 - 🧠 对照表: 列举出图片和数字之间的关系
 - 📐 圆周率: 快速记忆圆周率前51位数字
 
+## 浏览地址
+
+ [https://memory-number-training.vercel.app/#/reverseOrder](https://memory-number-training.vercel.app/#/reverseOrder)
+
 
 ## 🛠️ 技术栈
 - Vite
