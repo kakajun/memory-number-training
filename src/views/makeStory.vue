@@ -238,8 +238,9 @@ onMounted(() => {
 .top-btn {
   margin-bottom: 10px;
 }
-::v-deep .ep-textarea__inner {
-  font-size: 16px;
+
+:deep(.ep-textarea__inner){
+   font-size: 16px;
 }
 .below-text {
   width: 80%;
@@ -250,8 +251,10 @@ onMounted(() => {
 .check-input {
   font-size: 26px;
   padding: 20px 0;
-  ::v-deep .ep-input__wrapper {
-    height: 40px;
+
+
+  :deep(.ep-input__wrapper){
+  height: 40px;
   }
 }
 .memory-game {
