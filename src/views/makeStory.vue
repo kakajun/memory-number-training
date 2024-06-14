@@ -93,7 +93,7 @@ const state = reactive({
   cacheTemp: [] as ImageAsset[],
   correctCount: 0,
   wrongCount: 0,
-  timerID: 0 as any
+  timerID: null as null | number
 })
 
 const count = ref(4) // 初始几个图片
@@ -106,7 +106,7 @@ const setHidden = () => {
   state.timerID = setTimeout(() => {
     state.show = false
     state.numShow = false
-  }, delayTime.value * 1000)
+  }, delayTime.value * 1000) as unknown as number // 先断言为unknown，再断言为number
 }
 
 const toggleShow = () => {
@@ -136,7 +136,7 @@ const init = async () => {
   if (!state.show) {
     setHidden()
   } else {
-    clearTimeout(state.timerID)
+    clearTimeout(state.timerID as number)
   }
   setFocus()
   getTonyi()
@@ -239,8 +239,8 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 
-:deep(.ep-textarea__inner){
-   font-size: 16px;
+:deep(.ep-textarea__inner) {
+  font-size: 16px;
 }
 .below-text {
   width: 80%;
@@ -252,9 +252,8 @@ onMounted(() => {
   font-size: 26px;
   padding: 20px 0;
 
-
-  :deep(.ep-input__wrapper){
-  height: 40px;
+  :deep(.ep-input__wrapper) {
+    height: 40px;
   }
 }
 .memory-game {

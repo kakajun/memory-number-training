@@ -1,4 +1,4 @@
-import { ref, unref, onBeforeUnmount, onMounted, computed } from 'vue'
+import { ref, onBeforeUnmount, onMounted, computed } from 'vue'
 
 export default function useTimer(initialValue = 0) {
   const elapsedTime = ref(initialValue)

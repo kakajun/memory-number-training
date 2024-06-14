@@ -1,7 +1,7 @@
 /**
  * 给数组洗牌
  */
-export function shuffleArray(array: any[]) {
+export function shuffleArray(array: string[]) {
   for (let i = array.length - 1; i > 0; i--) {
     // 生成从0到i的随机索引
     const j = Math.floor(Math.random() * (i + 1))
@@ -123,7 +123,7 @@ const imageCache = new Map<string, HTMLImageElement>()
  * @description: 加载图片
  */
 export const getCacheImage = async (value: string, count?: number) => {
-  let temp = getImages(value, count)
+  const temp = getImages(value, count)
   const promises = temp.map(item => cacheImage(item, imageCache))
   await Promise.all(promises)
   return temp

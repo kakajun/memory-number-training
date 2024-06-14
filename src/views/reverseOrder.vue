@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted } from 'vue'
 import { minusNumber, getCacheImage } from '../utils/tool'
 import type { ImageAsset } from '../utils/tool'
 import useTimer from '../components/useTimer'
@@ -85,7 +85,7 @@ const checkAnswer = async (name: string) => {
   } else {
     wrongCount.value++
   }
-  let nextNumber = minusNumber(currentNumber.value)
+  const nextNumber = minusNumber(currentNumber.value)
   const num = Number(nextNumber)
   if (num === 0) {
     stopTimer()
@@ -107,7 +107,7 @@ const checkAnswer = async (name: string) => {
 const init = async () => {
   cacheTemp = await getCacheImage(currentNumber.value)
   updateDisplayedImages()
-  let nextNumber = minusNumber(currentNumber.value)
+  const nextNumber = minusNumber(currentNumber.value)
   cacheTemp = await getCacheImage(nextNumber)
 }
 

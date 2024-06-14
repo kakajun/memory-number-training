@@ -20,7 +20,7 @@ async function postData(url = '', data = {}) {
   }
 }
 
-export async function postAnswer(data: any) {
+export async function postAnswer(data: object) {
   try {
     const response = await postData(
       '/app/api/v1/services/aigc/text-generation/generation',

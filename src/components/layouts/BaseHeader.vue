@@ -31,6 +31,7 @@ watch(
     <el-menu-item index="/reverseOrder" @click="pushUrl('/reverseOrder')"
       >倒序选图</el-menu-item
     >
+
     <el-menu-item index="/random" @click="pushUrl('/random')"
       >随机选图</el-menu-item
     >
