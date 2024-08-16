@@ -1,8 +1,8 @@
 <template>
-  <div class="memory-game">
+  <div class="flex items-center flex-col p-20px">
     <!-- 顶部设置区域 -->
-    <div class="top-setime">
-      <div class="tittle-time">消失时间:</div>
+    <div class="flex items-center mb-10px">
+      <div class="mr-10px">消失时间:</div>
       <el-input-number class="mr-6" v-model="delayTime" :min="1" />
       <el-switch
         v-model="state.storyType"
@@ -11,7 +11,7 @@
         inactive-text="故事法"
       />
     </div>
-    <div class="top-btn">
+    <div class="mb-10px">
       <el-button @click="toggleShow">显示图片</el-button>
       <el-button @click="generateNewSet">换一组</el-button>
       <el-button @click="addSet">加一组</el-button>
@@ -19,45 +19,53 @@
     </div>
 
     <!-- 检验区域 -->
-    <div class="below-text">
-      <div class="middle-text">
-        <div>
-          <span class="tittle-text">检验: </span>
-          <span class="tittle-text">{{ state.count }} 组</span>
+    <div class="w-4/5 max-w-2xl mt-10px pb-10px">
+      <div class="flex justify-between">
+        <div class="pb-10px">
+          <span class="text-left text-3xl pb-10px">检验: </span>
+          <span class="text-left text-3xl pb-10px">{{ state.count }} 组</span>
         </div>
 
-        <div class="stats">
-          <p>正确: {{ state.correctCount }}</p>
-          <p class="pl10px">错误: {{ state.wrongCount }}</p>
+        <div class="flex">
+          <p class="text-xl my-5px">正确: {{ state.correctCount }}</p>
+          <p class="pl10px text-xl my-5px">错误: {{ state.wrongCount }}</p>
         </div>
       </div>
       <el-input
         ref="myInput"
-        class="check-input"
+        class="check-input text-2xl px-20px"
         v-model="formattedCheckText"
         @keyup.enter="submitAnswer"
       ></el-input>
     </div>
 
     <!-- 图片展示区域 -->
-    <div class="bottom-section">
-      <div v-if="state.numShow || state.show" class="image-grid">
+    <div class="flex justify-center flex-wrap gap-15px">
+      <div
+        v-if="state.numShow || state.show"
+        class="grid grid-cols-4 gap-10px w-full max-w-2xl"
+      >
         <div
           v-for="image in state.displayedImages"
           :key="image.name"
           class="image-cell"
         >
-          <div v-if="state.show" class="number-display">
+          <div v-if="state.show" class="text-4xl font-bold mb-10px">
             {{ image.name }}
           </div>
-          <img :src="image.url" :alt="image.name" @click="generateNewSet" />
+          <img
+            class="w-full h-auto cursor-pointer border-2px border-solid divide-transparent transition duration-300 ease-in-out border hover:border-blue-500"
+            :src="image.url"
+            :alt="image.name"
+            @click="generateNewSet"
+          />
         </div>
       </div>
     </div>
 
     <!-- 记忆攻略区域 -->
-    <div v-if="state.show" class="below-text">
-      <div class="tittle-text">记忆攻略:</div>
+    <div v-if="state.show" class="w-4/5 max-w-2xl mt-20px">
+      <div class="text-left text-3xl pb-10px">记忆攻略:</div>
       <el-input
         v-model="state.storyText"
         :readonly="true"
@@ -227,96 +235,13 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.top-setime {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  .tittle-time {
-    margin-right: 10px;
-  }
-}
-.top-btn {
-  margin-bottom: 10px;
-}
-
 :deep(.ep-textarea__inner) {
   font-size: 16px;
 }
-.below-text {
-  width: 80%;
-  max-width: 600px;
-  margin-top: 20px;
-}
 
 .check-input {
-  font-size: 26px;
-  padding: 20px 0;
-
   :deep(.ep-input__wrapper) {
     height: 40px;
   }
-}
-.memory-game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  padding: 20px;
-}
-
-.top-section {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.number-display {
-  font-size: 40px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.bottom-section {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  width: 100%;
-  max-width: 600px;
-}
-
-.image-cell img {
-  width: 100%;
-  height: auto;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: border-color 0.3s ease;
-}
-
-.tittle-text {
-  text-align: left;
-  font-size: 30px;
-  padding-bottom: 10px;
-}
-.image-cell img:hover {
-  border-color: #007bff;
-}
-
-.stats {
-  display: flex;
-  p {
-    font-size: 20px;
-    margin: 5px 0;
-  }
-}
-
-.middle-text {
-  display: flex;
-  justify-content: space-between;
 }
 </style>

@@ -1,21 +1,23 @@
 <template>
-  <div class="memory-game">
-    <div class="top-btn">
+  <div class="flex items-center flex-col p-20px">
+    <div class="mt-40px">
       <el-button @click="show = !show">显示数字图片</el-button>
     </div>
-    <div class="top-text" v-if="show">
-      <div class="top-text-img"><img src="../img/pi.png" alt="" /></div>
-      <div class="top-text-tittle" style="padding-bottom: 10px">
+    <div class="mt-10px w-full text-center text-3xl" v-if="show">
+      <div class="w-full mx-auto my-0">
+        <img src="../img/pi.png" alt="" />
+      </div>
+      <div class="pb-10px">
         3.141592 6 53 58 97 93 23 84 62 64 33 83 27 95 02 88 41 97 16 93 99 37
         51 05
       </div>
     </div>
 
-    <div class="below-text">
-      <div class="tittle-text">检验:</div>
+    <div class="w-4/5 max-w-2xl mt-20px">
+      <div class="text-left text-3xl pb-10px">检验:</div>
       <el-input
         ref="myInput"
-        class="tittle-text"
+        class="text-left text-3xl pb-10px"
         v-model="checkText"
         @keyup.enter="submit"
       ></el-input>
@@ -51,49 +53,3 @@ onMounted(() => {
   setFocus()
 })
 </script>
-<style lang="scss" scoped>
-.top-btn {
-  margin-bottom: 10px;
-}
-.below-text {
-  width: 80%;
-  max-width: 1200px;
-  margin-top: 40px;
-}
-.tittle-text {
-  text-align: left;
-  font-size: 32px;
-  padding-bottom: 10px;
-}
-
-.btn-group {
-  margin-top: 40px;
-}
-.memory-game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.number-display {
-  font-size: 40px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-.top-text {
-  width: 100%;
-  text-align: center;
-  font-size: 32px;
-  .top-text-img {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    img {
-      width: 100%;
-    }
-  }
-}
-</style>

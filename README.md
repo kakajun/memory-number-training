@@ -18,6 +18,7 @@
 - 📐 圆周率: 快速记忆圆周率前51位数字
 
 ## 浏览地址
+[https://vite-starter.element-plus.org/#/](https://vite-starter.element-plus.org/#/)
 
  [https://memory-number-training.vercel.app/#/reverseOrder](https://memory-number-training.vercel.app/#/reverseOrder)
 
